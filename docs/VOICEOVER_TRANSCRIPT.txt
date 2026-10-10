@@ -1,0 +1,11 @@
+When you hike deep into the Western Ghats or any remote mountain trail, cell service drops to zero. Standard outdoor apps force you to stare at screens, but when accidents happen solo, nobody even knows you are missing until days later.
+
+This is TrailSafe: an offline-first dead-man's switch and physiological risk engine built for the Touch Grass challenge. The design philosophy is Screen-Zero. You select your trail, zip your phone inside your backpack, and touch grass completely uninterrupted.
+
+When you reach a checkpoint, you give the phone a single tap. Behind the scenes, we evaluate hiker fatigue and dehydration using Prior Labs Tab-P-F-N foundation models. Hiker distress is a small-sample tabular problem where standard neural networks quickly overfit. Tab-P-F-N ingests historical trail priors and performs in-context Bayesian inference in a single forward pass, with zero training loops and zero hyperparameter tuning. In our empirical benchmarks, Tab-P-F-N forecasted fluid deficit with an error of just 17.9 milliliters, outperforming Random Forest by more than two times zero-shot.
+
+To orchestrate the safety countdown, we use Temporal durable execution. A dead-man's switch built with basic sleep timers or cron jobs is fragile. If the app restarts or the phone sleeps, the timer is lost. With Temporal, the workflow is entirely durable. Every checkpoint signal, timer deadline, and window extension survives reboots. If a hiker misses a waypoint, Temporal triggers a ten-minute safety grace period before sounding a loud acoustic rescue siren and escalating to emergency dispatch.
+
+When triggered, TrailSafe transmits an instant rescue payload over Telegram and Twilio S-M-S with exact G-P-S coordinates and Tab-P-F-N diagnostic telemetry.
+
+Tested with Temporal's in-memory time-skipping test server and verified green in GitHub Actions C-I, TrailSafe is fully open source under the MIT license to protect solo explorers everywhere. Go outside, stay safe, and touch grass.
