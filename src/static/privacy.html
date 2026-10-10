@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Privacy Policy: TrailSafe</title>
+  <meta name="description" content="TrailSafe Privacy Policy: offline-first biometric and location telemetry data governance.">
+  <link rel="stylesheet" href="/static/style.css">
+</head>
+<body>
+
+  <header class="app-header">
+    <div class="brand-container">
+      <a href="/" style="display: flex; align-items: center; gap: 10px; text-decoration: none; color: inherit;">
+        <svg class="brand-icon" viewBox="0 0 24 24">
+          <path d="M12 2L3 7v6c0 5.55 3.84 10.74 9 12 5.16-1.26 9-6.45 9-12V7l-9-5z"/>
+          <path d="M9 12l2 2 4-4"/>
+        </svg>
+        <span class="brand-title">TrailSafe</span>
+      </a>
+    </div>
+    <a href="/" class="btn btn-secondary" style="width: auto; padding: 6px 12px; font-size: 0.8rem;">Back to Monitor</a>
+  </header>
+
+  <main class="legal-container">
+    <h1 class="legal-title">Privacy Policy</h1>
+    <div class="legal-meta">Effective Date: October 06, 2026 | Version 1.0</div>
+
+    <section class="legal-section">
+      <h2>1. Privacy Principles and Screen-Zero Philosophy</h2>
+      <p>
+        TrailSafe operates on an offline-first, privacy-preserving model. Outdoor navigation and biometric telemetry are processed locally on your hardware. We do not sell, monetize, or broker personal location data or health metrics to third parties or advertising networks.
+      </p>
+    </section>
+
+    <section class="legal-section">
+      <h2>2. Data Collection and Telemetry Scope</h2>
+      <p>
+        When you run TrailSafe during a solo hike, the system processes seven specific physical telemetry dimensions to compute exhaustion and dehydration hazard probabilities:
+      </p>
+      <ul style="margin-left: 20px; color: var(--text-secondary); font-size: 0.9rem; line-height: 1.6; margin-bottom: 12px;">
+        <li>GPS Coordinates (Latitude, Longitude, Altitude, Moving Pace)</li>
+        <li>Cadence and Step Count via on-device accelerometer</li>
+        <li>Elapsed Active Time on trail</li>
+        <li>Ambient Environmental Temperature</li>
+        <li>Pack Fluid Volume remaining</li>
+        <li>Terrain Roughness and Elevation Delta</li>
+      </ul>
+    </section>
+
+    <section class="legal-section">
+      <h2>3. Prior Labs TabPFN In-Context Inference</h2>
+      <p>
+        Tabular risk evaluation is performed using Prior Labs TabPFN Bayesian foundation models. In local mode, model inference occurs entirely within the device Python runtime or client environment. No raw location or biometric streams are transmitted to external cloud servers unless you explicitly configure remote API endpoints.
+      </p>
+    </section>
+
+    <section class="legal-section">
+      <h2>4. Temporal Orchestration and State Durability</h2>
+      <p>
+        Dead-man switch countdowns and checkpoint states are maintained within your designated Temporal workflow cluster. Session records persist strictly for the duration of the hike to ensure reliable escalation if you become incapacitated or lose consciousness.
+      </p>
+    </section>
+
+    <section class="legal-section">
+      <h2>5. Emergency Alert Dispatch Protocols</h2>
+      <p>
+        If a checkpoint window expires and the safety grace period elapses without a verified check-in signal, or if you press the manual SOS panic trigger, TrailSafe transmits emergency dispatch payloads containing your last known GPS coordinates, trail leg, and risk metrics to your designated Telegram or SMS emergency contacts.
+      </p>
+    </section>
+
+    <section class="legal-section">
+      <h2>6. Local Storage and Data Retention</h2>
+      <p>
+        Trip logs and waypoint history are written to your local storage and an append-only JSONL ledger on your machine. You maintain complete control over these records and can delete them at any time.
+      </p>
+    </section>
+
+    <section class="legal-section">
+      <h2>7. Contact and Open-Source Inquiries</h2>
+      <p>
+        For inquiries regarding data protection or the open-source codebase, contact Kanak Sanjay Waradkar via the project repository at GitHub (@Labreo).
+      </p>
+    </section>
+  </main>
+
+  <footer class="app-footer">
+    <nav class="footer-nav">
+      <a href="/">Field App</a>
+      <a href="/terms">Terms and Conditions</a>
+      <a href="https://github.com/Labreo" target="_blank" rel="noopener">GitHub (@Labreo)</a>
+    </nav>
+    <div class="footer-disclaimer">
+      TrailSafe: Offline Solo Hiker Dead-Man Switch & Tabular Risk Engine.
+    </div>
+  </footer>
+
+</body>
+</html>

@@ -1,0 +1,134 @@
+# ==============================================================================
+# TrailSafe: .gitignore Configuration
+# ==============================================================================
+
+# ------------------------------------------------------------------------------
+# 1. Python Environment & Bytecode
+# ------------------------------------------------------------------------------
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+
+# Virtual Environments
+.venv/
+venv/
+env/
+ENV/
+env.bak/
+venv.bak/
+
+# Packaging & Distribution
+build/
+dist/
+downloads/
+eggs/
+.eggs/
+lib/
+lib64/
+parts/
+sdist/
+var/
+wheels/
+share/python-wheels/
+*.egg-info/
+.installed.cfg
+*.egg
+MANIFEST
+
+# ------------------------------------------------------------------------------
+# 2. Environment Variables & Secret Credentials
+# ------------------------------------------------------------------------------
+.env
+.env.local
+.env.*.local
+.env.*
+!.env.example
+
+# TLS / Certificates / Cryptographic Keys (Temporal Cloud mTLS & API tokens)
+*.pem
+*.key
+*.crt
+*.pfx
+*.p12
+
+# ------------------------------------------------------------------------------
+# 3. Temporal Dev Server & Local Database State
+# ------------------------------------------------------------------------------
+*.sqlite
+*.sqlite3
+*.sqlite3-journal
+*.db
+*.db-journal
+
+# ------------------------------------------------------------------------------
+# 4. Machine Learning & TabPFN Caches
+# ------------------------------------------------------------------------------
+.cache/
+model_cache/
+checkpoints/
+*.pt
+*.pth
+*.bin
+*.onnx
+
+# ------------------------------------------------------------------------------
+# 5. Testing, Coverage & Linters
+# ------------------------------------------------------------------------------
+.pytest_cache/
+.coverage
+.coverage.*
+coverage.xml
+htmlcov/
+.tox/
+.nox/
+.mypy_cache/
+.ruff_cache/
+.pyre/
+.pytype/
+
+# ------------------------------------------------------------------------------
+# 6. Jupyter Notebook Checkpoints
+# ------------------------------------------------------------------------------
+.ipynb_checkpoints
+*-checkpoint.ipynb
+
+# ------------------------------------------------------------------------------
+# 7. Logs & Runtime Dumps
+# ------------------------------------------------------------------------------
+*.log
+logs/
+*.out
+*.pid
+
+# ------------------------------------------------------------------------------
+# 8. Operating System Artifacts
+# ------------------------------------------------------------------------------
+# macOS
+.DS_Store
+.DS_Store?
+._*
+.Spotlight-V100
+.Trashes
+
+# Windows
+Thumbs.db
+ehthumbs.db
+Desktop.ini
+
+# ------------------------------------------------------------------------------
+# 9. IDE & Editor Files
+# ------------------------------------------------------------------------------
+.idea/
+*.swp
+*.swo
+*~
+*.sublime-workspace
+*.sublime-project
+
+# VS Code / Cursor (ignore local workspace state, keep shared configs if added)
+.vscode/*
+!.vscode/settings.json
+!.vscode/tasks.json
+!.vscode/launch.json
+!.vscode/extensions.json

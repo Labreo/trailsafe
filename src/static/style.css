@@ -1,0 +1,568 @@
+/* TrailSafe Tactical Field Mobile Interface */
+/* Design Contract: Dark slate theme, crisp technical borders, zero purple gradients, zero pill shapes, zero emoji icons */
+
+:root {
+  --bg-primary: #0a0e14;
+  --bg-secondary: #131923;
+  --bg-tertiary: #1b2433;
+  --border-color: #263347;
+  --border-highlight: #3b4c68;
+  
+  --text-primary: #f1f5f9;
+  --text-secondary: #94a3b8;
+  --text-muted: #64748b;
+  
+  --accent-safe: #22c55e;
+  --accent-safe-bg: rgba(34, 197, 94, 0.12);
+  --accent-warning: #f59e0b;
+  --accent-warning-bg: rgba(245, 158, 11, 0.12);
+  --accent-danger: #ef4444;
+  --accent-danger-bg: rgba(239, 68, 68, 0.12);
+  --accent-info: #3b82f6;
+  --accent-info-bg: rgba(59, 130, 246, 0.12);
+
+  --font-mono: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
+  --font-sans: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+}
+
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+  -webkit-tap-highlight-color: transparent;
+}
+
+body {
+  background-color: var(--bg-primary);
+  color: var(--text-primary);
+  font-family: var(--font-sans);
+  line-height: 1.5;
+  min-height: 100vh;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+}
+
+/* Header & Navigation */
+header.app-header {
+  background-color: var(--bg-secondary);
+  border-bottom: 1px solid var(--border-color);
+  padding: 12px 16px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  position: sticky;
+  top: 0;
+  z-index: 50;
+}
+
+.brand-container {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.brand-icon {
+  width: 24px;
+  height: 24px;
+  stroke: var(--accent-safe);
+  fill: none;
+  stroke-width: 2;
+}
+
+.brand-title {
+  font-family: var(--font-mono);
+  font-size: 1.05rem;
+  font-weight: 700;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+  color: var(--text-primary);
+}
+
+.cluster-status-badge {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 0.75rem;
+  font-family: var(--font-mono);
+  background: var(--bg-tertiary);
+  border: 1px solid var(--border-color);
+  border-radius: 4px;
+  padding: 4px 8px;
+  color: var(--text-secondary);
+}
+
+.status-indicator-dot {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background-color: var(--accent-safe);
+}
+
+.status-indicator-dot.offline {
+  background-color: var(--accent-warning);
+}
+
+/* Main Container */
+main.container {
+  flex: 1;
+  max-width: 600px;
+  width: 100%;
+  margin: 0 auto;
+  padding: 16px;
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+/* Cards & Panels */
+.card {
+  background-color: var(--bg-secondary);
+  border: 1px solid var(--border-color);
+  border-radius: 4px;
+  padding: 16px;
+}
+
+.card-title {
+  font-size: 0.85rem;
+  font-family: var(--font-mono);
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  color: var(--text-secondary);
+  margin-bottom: 12px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.card-title svg {
+  width: 16px;
+  height: 16px;
+  stroke: var(--text-secondary);
+}
+
+/* Tactical Metrics Grid */
+.metrics-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 10px;
+  margin-bottom: 12px;
+}
+
+.metric-box {
+  background: var(--bg-tertiary);
+  border: 1px solid var(--border-color);
+  border-radius: 4px;
+  padding: 10px 12px;
+}
+
+.metric-label {
+  font-size: 0.72rem;
+  color: var(--text-muted);
+  font-family: var(--font-mono);
+  text-transform: uppercase;
+}
+
+.metric-value {
+  font-size: 1.25rem;
+  font-family: var(--font-mono);
+  font-weight: 700;
+  color: var(--text-primary);
+  margin-top: 2px;
+}
+
+.metric-unit {
+  font-size: 0.75rem;
+  color: var(--text-secondary);
+  font-weight: 400;
+}
+
+/* Countdown Display */
+.countdown-container {
+  background: var(--bg-primary);
+  border: 1px solid var(--border-highlight);
+  border-radius: 4px;
+  padding: 16px;
+  text-align: center;
+  margin-bottom: 14px;
+}
+
+.countdown-label {
+  font-size: 0.75rem;
+  font-family: var(--font-mono);
+  text-transform: uppercase;
+  color: var(--text-muted);
+  letter-spacing: 0.08em;
+}
+
+.countdown-digits {
+  font-size: 2.5rem;
+  font-family: var(--font-mono);
+  font-weight: 700;
+  color: var(--accent-safe);
+  letter-spacing: 0.05em;
+  margin: 4px 0;
+}
+
+.countdown-digits.warning {
+  color: var(--accent-warning);
+}
+
+.countdown-digits.danger {
+  color: var(--accent-danger);
+}
+
+.countdown-status-text {
+  font-size: 0.8rem;
+  color: var(--text-secondary);
+}
+
+/* Risk Assessment Banner */
+.risk-banner {
+  border: 1px solid var(--border-color);
+  border-radius: 4px;
+  padding: 12px;
+  background: var(--bg-tertiary);
+  margin-bottom: 12px;
+}
+
+.risk-banner.hazard {
+  border-color: var(--accent-danger);
+  background: var(--accent-danger-bg);
+}
+
+.risk-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 6px;
+}
+
+.risk-score {
+  font-family: var(--font-mono);
+  font-weight: 700;
+  font-size: 0.95rem;
+}
+
+.risk-score.safe {
+  color: var(--accent-safe);
+}
+
+.risk-score.warning {
+  color: var(--accent-warning);
+}
+
+.risk-score.danger {
+  color: var(--accent-danger);
+}
+
+.risk-recommendation {
+  font-size: 0.82rem;
+  color: var(--text-secondary);
+}
+
+/* Buttons (Strictly Rectangular, Tactile, No Pill Shapes) */
+.btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  width: 100%;
+  padding: 14px 16px;
+  font-size: 0.92rem;
+  font-family: var(--font-mono);
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  border-radius: 4px;
+  border: 1px solid transparent;
+  cursor: pointer;
+  touch-action: manipulation;
+  user-select: none;
+}
+
+.btn:active {
+  transform: translateY(1px);
+}
+
+.btn svg {
+  width: 18px;
+  height: 18px;
+  stroke-width: 2;
+  fill: none;
+}
+
+.btn-primary {
+  background-color: var(--accent-safe);
+  color: #05140b;
+  border-color: #16a34a;
+}
+
+.btn-primary:active {
+  background-color: #16a34a;
+}
+
+.btn-secondary {
+  background-color: var(--bg-tertiary);
+  color: var(--text-primary);
+  border-color: var(--border-color);
+}
+
+.btn-secondary:active {
+  background-color: #243044;
+}
+
+.btn-warning {
+  background-color: var(--accent-warning-bg);
+  color: var(--accent-warning);
+  border-color: var(--accent-warning);
+}
+
+.btn-danger {
+  background-color: var(--accent-danger);
+  color: #ffffff;
+  border-color: #dc2626;
+}
+
+.btn-danger:active {
+  background-color: #dc2626;
+}
+
+.button-stack {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.button-row {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 10px;
+}
+
+/* Forms & Inputs */
+.form-group {
+  margin-bottom: 12px;
+}
+
+.form-label {
+  display: block;
+  font-size: 0.78rem;
+  font-family: var(--font-mono);
+  color: var(--text-secondary);
+  text-transform: uppercase;
+  margin-bottom: 6px;
+}
+
+.form-input,
+.form-select {
+  width: 100%;
+  padding: 10px 12px;
+  background-color: var(--bg-tertiary);
+  border: 1px solid var(--border-color);
+  border-radius: 4px;
+  color: var(--text-primary);
+  font-family: var(--font-sans);
+  font-size: 0.95rem;
+}
+
+.form-input:focus,
+.form-select:focus {
+  outline: none;
+  border-color: var(--accent-info);
+}
+
+/* Waypoint List */
+.checkpoint-list {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.checkpoint-item {
+  background: var(--bg-tertiary);
+  border: 1px solid var(--border-color);
+  border-radius: 4px;
+  padding: 10px 12px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.checkpoint-item.active {
+  border-color: var(--accent-info);
+  background: var(--accent-info-bg);
+}
+
+.checkpoint-item.completed {
+  border-color: var(--accent-safe);
+  opacity: 0.75;
+}
+
+.checkpoint-name {
+  font-weight: 600;
+  font-size: 0.88rem;
+}
+
+.checkpoint-meta {
+  font-size: 0.75rem;
+  color: var(--text-muted);
+  font-family: var(--font-mono);
+}
+
+/* Camera Scanner Modal */
+.scanner-modal {
+  display: none;
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(0, 0, 0, 0.9);
+  z-index: 100;
+  padding: 16px;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+
+.scanner-modal.open {
+  display: flex;
+}
+
+.scanner-video-container {
+  width: 100%;
+  max-width: 400px;
+  border: 2px solid var(--border-highlight);
+  border-radius: 4px;
+  overflow: hidden;
+  background: #000;
+  position: relative;
+}
+
+video#scanner-video {
+  width: 100%;
+  height: 280px;
+  object-fit: cover;
+  display: block;
+}
+
+.scanner-reticle {
+  position: absolute;
+  top: 20%;
+  left: 15%;
+  right: 15%;
+  bottom: 20%;
+  border: 2px dashed var(--accent-safe);
+  pointer-events: none;
+}
+
+/* Telemetry Accordion & Audit */
+.audit-list {
+  max-height: 180px;
+  overflow-y: auto;
+  font-family: var(--font-mono);
+  font-size: 0.75rem;
+  color: var(--text-secondary);
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.audit-entry {
+  padding: 4px 6px;
+  border-left: 2px solid var(--border-color);
+}
+
+/* Footer & Legal Links */
+footer.app-footer {
+  margin-top: auto;
+  background-color: var(--bg-secondary);
+  border-top: 1px solid var(--border-color);
+  padding: 16px;
+  text-align: center;
+  font-size: 0.8rem;
+  color: var(--text-muted);
+}
+
+.footer-nav {
+  display: flex;
+  justify-content: center;
+  gap: 16px;
+  margin-bottom: 8px;
+}
+
+.footer-nav a {
+  color: var(--text-secondary);
+  text-decoration: none;
+}
+
+.footer-nav a:hover {
+  color: var(--text-primary);
+  text-decoration: underline;
+}
+
+.footer-disclaimer {
+  font-size: 0.72rem;
+  line-height: 1.4;
+  max-width: 500px;
+  margin: 0 auto;
+}
+
+/* Benchmark Result View */
+.benchmark-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-family: var(--font-mono);
+  font-size: 0.75rem;
+  margin-top: 8px;
+}
+
+.benchmark-table th,
+.benchmark-table td {
+  border: 1px solid var(--border-color);
+  padding: 6px 8px;
+  text-align: left;
+}
+
+.benchmark-table th {
+  background: var(--bg-tertiary);
+  color: var(--text-secondary);
+}
+
+/* Legal Document Styles */
+.legal-container {
+  max-width: 760px;
+  margin: 24px auto;
+  padding: 24px 16px;
+}
+
+.legal-title {
+  font-size: 1.5rem;
+  font-weight: 700;
+  margin-bottom: 8px;
+}
+
+.legal-meta {
+  font-size: 0.8rem;
+  color: var(--text-muted);
+  font-family: var(--font-mono);
+  margin-bottom: 24px;
+}
+
+.legal-section {
+  margin-bottom: 20px;
+}
+
+.legal-section h2 {
+  font-size: 1.1rem;
+  margin-bottom: 8px;
+  color: var(--text-primary);
+}
+
+.legal-section p {
+  color: var(--text-secondary);
+  font-size: 0.92rem;
+  line-height: 1.6;
+  margin-bottom: 8px;
+}

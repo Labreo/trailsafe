@@ -1,0 +1,25 @@
+{
+  "dataset_size": 40,
+  "classification": {
+    "tabpfn": {
+      "brier_score": 0.005,
+      "roc_auc": 1.0,
+      "accuracy": 1.0
+    },
+    "random_forest": {
+      "brier_score": 0.0114,
+      "roc_auc": 1.0,
+      "accuracy": 1.0
+    },
+    "logistic_regression": {
+      "brier_score": 0.0005,
+      "roc_auc": 1.0,
+      "accuracy": 1.0
+    }
+  },
+  "regression": {
+    "tabpfn_mae_ml": 17.9,
+    "random_forest_mae_ml": 34.2,
+    "linear_regression_mae_ml": 44.2
+  }
+}

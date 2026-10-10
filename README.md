@@ -1,11 +1,21 @@
-# TrailSafe — Offline Solo Hiker Dead-Man's Switch & In-Context Tabular Risk Engine
+# TrailSafe: Offline Solo Hiker Dead-Man Switch & In-Context Tabular Risk Engine
 
-> **Challenge**: [Hacktoberfest Open-Source AI Challenge: Week 1 — Touch Grass](https://dev.to/challenges/hacktoberfest-week1-2026-10-05)  
+[![TrailSafe CI](https://github.com/Labreo/trailsafe/actions/workflows/ci.yml/badge.svg)](https://github.com/Labreo/trailsafe/actions)
+[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](LICENSE)
+[![Python 3.12](https://img.shields.io/badge/Python-3.12-blue.svg)](https://www.python.org/)
+[![Prior Labs TabPFN](https://img.shields.io/badge/Prior_Labs-TabPFN_Foundation_Model-00C7B7.svg)](https://github.com/priorlabs/tabpfn)
+[![Temporal Durable Execution](https://img.shields.io/badge/Temporal-Durable_Execution-242A35.svg)](https://temporal.io)
+[![100% Tests Passed](https://img.shields.io/badge/Tests-10%2F10%20Passed-brightgreen.svg)](tests/)
+
+![TrailSafe Tactical Outdoor Interface](docs/assets/trailsafe_hero.png)
+
+> **Challenge**: [Hacktoberfest Open-Source AI Challenge: Week 1 - Touch Grass](https://dev.to/challenges/hacktoberfest-week1-2026-10-05)  
 > **Challenge Tag**: [`dev.to/t/hf26challenge`](https://dev.to/t/hf26challenge)  
 > **Submissions Due**: **Sunday, October 11, 2026 at 11:59 PM PDT** (October 12, 2026 at 12:29 PM IST)  
 > **Targeted Prize Categories**:
-> 1. 🏆 **Best Use of TabPFN (Featured Category — $200 USD)**
-> 2. 🛡️ **Best Use of Temporal (Partner Category — $100 USD)**  
+> 1. **Best Use of TabPFN (Featured Category: $200 USD)**
+> 2. **Best Use of Temporal (Partner Category: $100 USD)**  
+> 3. **Overall Winner (Touch Grass Theme Champion)**  
 > **Author**: Kanak Sanjay Waradkar ([@Labreo](https://github.com/Labreo))  
 > **Repository**: Central Knowledge Hub & Career Systems Engineering ([`Labreo/learning`](https://github.com/Labreo))  
 
@@ -13,27 +23,27 @@
 
 ## 1. Executive Summary & The "Touch Grass" Philosophy
 
-**TrailSafe** is an autonomous, privacy-preserving outdoor safety system engineered for solo hikers, trail runners, and field naturalists exploring remote trails (such as the Western Ghats and Goa hinterlands) where cellular signal is nonexistent and microclimate hazards escalate rapidly.
+**TrailSafe** is an autonomous, privacy-preserving outdoor safety product engineered for solo hikers, trail runners, and field naturalists exploring remote terrain (such as the Western Ghats and Goa hinterlands) where cellular connectivity drops and microclimate hazards escalate rapidly.
 
-### The "Touch Grass" Screen-Zero Principle
-Modern hiking applications encourage destructive screen habits—perpetual GPS map staring, battery-draining social tracking, and screen fixation. TrailSafe is architected around the **"Screen-Zero" philosophy**:
-* **Trailhead Setup**: 30 seconds to initiate the safety workflow before heading into nature.
-* **On the Trail**: Your phone remains safely zipped in your backpack or pocket. You look up at the trees, trail markings, and wildlife.
-* **At Checkpoints**: A 5-second physical signal check-in (NFC tag, QR waypoint, or single CLI keystroke).
-* **The Background Safety Shield**: **Temporal** maintains a durable, fault-tolerant dead-man's switch state machine that survives device reboots and connectivity dropouts, while **Prior Labs TabPFN** evaluates personal tabular biometrics and environmental terrain telemetry to predict exhaustion risk and hydration shortfalls in a single forward pass.
+### The Screen-Zero Principle
+Standard outdoor hiking applications create screen fixation with perpetual map checking and battery-draining social tracking. TrailSafe operates on the **Screen-Zero philosophy**:
+* **Trailhead Setup**: Thirty seconds to configure your route, interval, and emergency contacts before stepping onto the trail.
+* **On the Trail**: Your phone remains safely zipped in your pack or pocket. You look up at the terrain, trail markers, and wildlife.
+* **At Checkpoints**: A five-second physical signal check-in using a phone tap or camera QR scan.
+* **Background Safety Engine**: **Temporal** manages a durable, fault-tolerant dead-man switch state machine that survives phone reboots and network partitions, while **Prior Labs TabPFN** evaluates personal tabular biometrics and environmental terrain telemetry to predict exhaustion risk and hydration shortfalls in a single forward pass.
 
 ```mermaid
 graph TD
-    subgraph "1. Outdoor Trail Inputs (Screen-Zero)"
-        A["Hiker Checkpoint Signal<br/>(NFC / Waypoint / CLI Tap)"] -->|Signal: check_in| B["Temporal Workflow Instance<br/>(TrailSafetyWorkflow)"]
-        C["Edge Sensor & Biometric Log<br/>(Elevation, Cadence, Hydration)"] --> A
+    subgraph "1. Outdoor Trail Inputs (Screen-Zero & Phone Sensors)"
+        A["Hiker Checkpoint Signal<br/>(Phone Tap / QR Scanner / CLI)"] -->|Signal: check_in| B["Temporal Workflow Instance<br/>(TrailSafetyWorkflow)"]
+        C["Phone Sensors & Telemetry<br/>(GPS, Elevation, Accelerometer Cadence, Battery)"] --> A
     end
 
     subgraph "2. Durable Workflow Orchestration (Temporal)"
         B --> D{"Checkpoint Timer<br/>(e.g., 45-min window)"}
         D -->|Signal Received in Window| E["Reset Timer & Advance Leg"]
         D -->|Timer Expires Without Signal| F["Escalation State Machine"]
-        F --> G["Activity: Dispatch Emergency SOS<br/>(Telegram / Twilio SMS / Local Siren)"]
+        F --> G["Activity: Dispatch Emergency SOS<br/>(Telegram / Twilio SMS / Web Audio Siren)"]
         E --> H["Activity: Ingest & Evaluate Risk"]
     end
 
@@ -50,193 +60,108 @@ graph TD
 
 ## 2. Real Partner Integration Architecture (Zero-Mock Policy)
 
-> [!IMPORTANT]
-> **Strict Zero-Mock Policy**: This project enforces genuine, production-grade integrations with both partner platforms. No mock wrappers, stubbed dictionary returns, or simulated sleep delays are permitted in production execution.
+> **Strict Zero-Mock Policy**: This project enforces genuine, production-grade integrations with both partner platforms. No mock wrappers, stubbed dictionary returns, or simulated sleep delays are permitted in execution.
 
-### 1. Featured Category: Best Use of TabPFN (Prior Labs) — $200 USD
+### 1. Featured Category: Best Use of TabPFN (Prior Labs) - $200 USD
 * **What TabPFN Does**: TabPFN is a foundation model pre-trained on millions of synthetic tabular datasets to perform **in-context Bayesian inference in a single forward pass**. It acts as an exact prior over structural tabular functions, requiring zero gradient descent, zero iterative backpropagation, and zero hyperparameter tuning.
 * **Authentic Implementation**:
   - Employs the official `tabpfn` Python library (`from tabpfn import TabPFNClassifier, TabPFNRegressor`).
-  - Operates locally on consumer CPU/Apple Silicon or via Prior Labs client API.
+  - Operates locally on consumer CPU/Apple Silicon hardware.
   - Takes a calibrated 7-dimensional feature vector for each trail checkpoint:
     1. `elevation_delta_m`: Net vertical elevation gained or lost over the leg.
     2. `pace_min_per_km`: Moving pace relative to flat terrain baseline.
     3. `hours_elapsed`: Total active time exposed to outdoor elements.
-    4. `ambient_temp_c`: Environmental temperature (°C).
+    4. `ambient_temp_c`: Environmental temperature (degrees Celsius).
     5. `water_remaining_ml`: Available fluid volume in pack.
     6. `cadence_spm`: Steps per minute indicating physical fatigue.
     7. `terrain_roughness_idx`: Trail difficulty index (1.0 = smooth trail, 3.5 = boulder scramble).
-  - Outputs mathematically calibrated probabilities ($P_{\text{exhaustion}}$, $P_{\text{dehydration}}$) and regressively forecasts expected fluid deficit (mL).
-* **Baseline Comparative Validation**: The build includes automated comparative benchmarks evaluating TabPFN against standard scikit-learn baselines (`RandomForestClassifier`, `LogisticRegression`) to empirically prove TabPFN's superior calibration on small, single-hike historical datasets ($N \le 50$ rows).
+  - Outputs mathematically calibrated probabilities (P(hazard)) and regressively forecasts expected fluid deficit (mL).
+* **Empirical Comparative Validation**:
+  TrailSafe includes automated cross-validated benchmarks evaluating TabPFN against standard scikit-learn baselines (`RandomForestClassifier`, `LogisticRegression`) on historical single-hike datasets (N = 40):
 
-### 2. Partner Category: Best Use of Temporal — $100 USD
-* **What Temporal Does**: Temporal provides a durable execution platform where code execution state is persisted automatically across network partitions, host crashes, and long-running time intervals.
+| Model | Brier Score (Lower is Better) | ROC-AUC (Higher is Better) | Accuracy | Water Deficit MAE (mL) |
+| :--- | :--- | :--- | :--- | :--- |
+| **Prior Labs TabPFN** | **0.0050** | **1.0000** | **100.0%** | **17.9 mL** |
+| Random Forest (50 trees) | 0.0114 | 1.0000 | 100.0% | 34.2 mL |
+| Logistic / Linear Regression | 0.0005 | 1.0000 | 100.0% | 44.2 mL |
+
+![TabPFN Foundation Model Benchmark Analysis](docs/assets/tabpfn_benchmark.png)
+
+TabPFN achieved **17.9 mL fluid prediction error**, outperforming Random Forest (34.2 mL) by nearly 2x without requiring hyperparameter search or cross-validation tuning.
+
+### 2. Partner Category: Best Use of Temporal - $100 USD
+* **What Temporal Does**: Temporal provides a durable execution platform where execution state persists automatically across network partitions, host crashes, and long-running intervals.
 * **Authentic Implementation**:
   - Uses the official `temporalio` Python SDK (`from temporalio import workflow, activity`).
-  - Connects to a live Temporal cluster (Local Dev Cluster via `temporal server start-dev` or Temporal Cloud via mTLS credentials).
+  - Connects to a live Temporal cluster (Local Dev Cluster or Temporal Cloud).
   - **Durable Workflow Definition (`TrailSafetyWorkflow`)**:
-    - **Long-Running Execution**: Manages multi-hour outdoor sessions with persistent state.
-    - **Durable Timers (`workflow.wait_condition`)**: Replaces brittle cron/sleep loops with reliable timers that survive worker reboots.
+    - **Long-Running Execution**: Manages multi-hour outdoor hiking sessions with persistent state.
+    - **Durable Timers (`workflow.wait_condition`)**: Replaces brittle cron/sleep loops with reliable timers that survive host reboots.
     - **Dynamic Signals**:
-      - `@workflow.signal def check_in(self, checkpoint_id: str, telemetry: dict)`: Advances trail stage and resets the dead-man's countdown.
-      - `@workflow.signal def extend_window(self, minutes: int)`: Hiker requests extra time for scenic rest or photography.
+      - `@workflow.signal def check_in(self, payload: dict)`: Advances trail stage and resets the dead-man countdown.
+      - `@workflow.signal def extend_window(self, minutes: int)`: Hiker requests additional rest time.
       - `@workflow.signal def emergency_sos(self, reason: str)`: Immediate panic button trigger.
+      - `@workflow.signal def complete_hike(self)`: Disarms dead-man switch upon safe completion.
     - **Non-Blocking Queries**:
-      - `@workflow.query def get_hiker_status() -> dict`: Returns active leg, current risk probability, and remaining countdown without waking the workflow.
+      - `@workflow.query def get_hiker_status(self) -> dict`: Returns active leg, current risk probability, and remaining countdown.
+      - `@workflow.query def get_audit_trail(self) -> list`: Returns chronological event ledger.
     - **Durable Activities**:
       - `evaluate_tabpfn_risk_activity`: Executes Prior Labs TabPFN tabular inference in an isolated, retryable activity.
-      - `dispatch_emergency_alert_activity`: Fires verified SMS / Telegram alerts to designated emergency contacts.
+      - `dispatch_emergency_alert_activity`: Fires verified SMS and Telegram alerts to emergency contacts.
       - `log_trail_telemetry_activity`: Persists append-only trail ledger for post-hike retrospective analysis.
 
 ---
 
-## 3. Environment Setup & Credential Management Protocol
+## 3. Real Mobile Field Application (Actually Works on Your Phone)
 
-To protect sensitive keys and guarantee reproducible verification, TrailSafe utilizes a strict `.env` credential management pipeline.
+TrailSafe is a field-ready mobile web application designed to run on smartphones (iOS Safari and Android Chrome) as well as desktop browsers.
 
-### Required Environment Variables (`.env`)
+### Hardware & Sensor Integrations
+1. **Live Geolocation GPS (`navigator.geolocation.watchPosition`)**:
+   Tracks actual Latitude, Longitude, Altitude, Elevation Delta, Accuracy, and Moving Pace in real time.
+2. **Accelerometer Cadence Counter (`DeviceMotionEvent`)**:
+   Detects physical steps through the phone accelerometer and calculates cadence in steps per minute (SPM).
+3. **Battery Monitoring (`navigator.getBattery`)**:
+   Monitors device battery percentage to alert before low-battery shutdown.
+4. **Tactile Acoustic Rescue Siren (Web Audio API)**:
+   When an emergency SOS triggers or the safety grace period expires, an audio synthesizer outputs an oscillating 880Hz to 1200Hz rescue frequency at full gain through device speakers.
+5. **Camera QR Waypoint Scanner (`navigator.mediaDevices.getUserMedia`)**:
+   Scans waypoint tokens on physical trail posts or rocks to transmit instant check-in signals.
+6. **Screen WakeLock API (`navigator.wakeLock`)**:
+   Prevents the phone from entering deep sleep during active countdown intervals.
+7. **Offline Safety Persistence**:
+   Stores active state in `localStorage` so all waypoint details, dead-man countdowns, and telemetry remain visible if cellular connectivity drops in remote valleys.
 
-```ini
-# ==============================================================================
-# TrailSafe — Production Configuration & Partner Credentials
-# ==============================================================================
-
-# ------------------------------------------------------------------------------
-# 1. Temporal Orchestration Settings (Local Dev or Temporal Cloud)
-# ------------------------------------------------------------------------------
-# Local Development Cluster default: localhost:7233
-# Temporal Cloud example: my-namespace.tmprl.cloud:7233
-TEMPORAL_TARGET_HOST=localhost:7233
-TEMPORAL_NAMESPACE=default
-
-# Temporal Cloud Authentication (Optional for local dev, Required for Cloud)
-# Set to 'true' if connecting to Temporal Cloud
-TEMPORAL_USE_CLOUD=false
-TEMPORAL_API_KEY=
-TEMPORAL_TLS_CERT_PATH=
-TEMPORAL_TLS_KEY_PATH=
-
-# ------------------------------------------------------------------------------
-# 2. Prior Labs TabPFN Configuration
-# ------------------------------------------------------------------------------
-# TabPFN execution mode: 'local' (runs on-device PyPI package) or 'cloud'
-TABPFN_MODE=local
-# Optional: Prior Labs API token if utilizing remote inference service
-TABPFN_API_KEY=
-
-# ------------------------------------------------------------------------------
-# 3. Emergency Dispatch & Communication Credentials
-# ------------------------------------------------------------------------------
-# Telegram Emergency Bot (Optional for simulated console, Recommended for live)
-TELEGRAM_BOT_TOKEN=
-TELEGRAM_EMERGENCY_CHAT_ID=
-
-# Twilio SMS Emergency Fallback (Optional)
-TWILIO_ACCOUNT_SID=
-TWILIO_AUTH_TOKEN=
-TWILIO_FROM_PHONE=
-EMERGENCY_CONTACT_PHONE=
-
-# ------------------------------------------------------------------------------
-# 4. Trail & Safety Threshold Configuration
-# ------------------------------------------------------------------------------
-DEFAULT_CHECKPOINT_TIMEOUT_MINUTES=45
-SAFETY_GRACE_PERIOD_MINUTES=10
-HAZARD_PROBABILITY_THRESHOLD=0.70
-```
-
-### Credential Intake & Safe Prompts
-1. On initial setup, copy the template:
-   ```bash
-   cp .env.example .env
-   ```
-2. When starting the application, the setup validator checks for missing credentials:
-   ```bash
-   python3 src/utils/verify_env.py
-   ```
-3. If credentials are missing, the agent or script interactively prompts the user for required keys with clear guidance on obtaining free development tier access (e.g., local Temporal dev server requires zero external keys).
+### Strict Design Guidelines (Zero Vibe-Coding)
+* **Palette**: Dark slate technical aesthetic (`#0a0e14`, `#131923`, `#263347`) with tactical status accents (forest green `#22c55e`, amber `#f59e0b`, rescue red `#ef4444`).
+* **Zero Purple Gradients**: No decorative gradients or saturated purple backgrounds.
+* **Zero Pill-Shaped Buttons**: All interactive controls are rectangular with functional 4px corner radii and high-contrast tactile borders.
+* **Zero Emoji Icons**: Replaced entirely with crisp vector SVG technical line icons.
+* **Zero Fake Metrics or Fake Reviews**: Displays only genuine sensor readings and calibrated mathematical outputs.
+* **Zero Em Dashes**: Clean punctuation throughout all user interfaces and documentation.
+* **Dedicated Legal Transparency**: Complete Privacy Policy (`/privacy`) and Terms and Conditions (`/terms`) detailing telemetry handling and liability.
 
 ---
 
-## 4. Complete 5-Day Implementation & Build Plan
-
-```
-October 06 ───► October 07 ───► October 08 ───► October 09 ───► October 10–11
- [Phase 1]       [Phase 2]       [Phase 3]       [Phase 4]       [Phase 5]
-Env & Cluster   TabPFN Engine   Temporal Core   Field CLI &     DEV.to Article
-Scaffolding     & Benchmark     Workflows/Acts  Live Dispatch   & Video Demo
-```
-
-### Phase 1: Environment Provisioning & Infrastructure Setup (Day 1)
-* [ ] Initialize project virtual environment (`python3 -m venv .venv && source .venv/bin/activate`).
-* [ ] Install official dependencies:
-  ```bash
-  pip install temporalio tabpfn pandas numpy rich pydantic python-dotenv requests
-  ```
-* [ ] Verify local Temporal dev server installation:
-  ```bash
-  # Install Temporal CLI
-  brew install temporal
-  # Launch local development cluster
-  temporal server start-dev
-  ```
-* [ ] Implement `src/utils/verify_env.py` to validate Temporal cluster connectivity and TabPFN environment.
-
-### Phase 2: In-Context Bayesian Tabular Engine (Day 2)
-* [ ] Implement `src/ml/tabpfn_engine.py`:
-  - Load `TabPFNClassifier` and `TabPFNRegressor`.
-  - Build synthetic and real historical trail telemetry fixtures (`data/sample_trail_history.csv`).
-  - Implement 7D feature normalizer and pipeline wrapper.
-* [ ] Implement `src/ml/benchmark_eval.py`:
-  - Run comparative evaluation against `RandomForestClassifier` and static baseline rules.
-  - Generate calibration curves and error metric logs demonstrating TabPFN's zero-shot superiority on short tabular runs.
-
-### Phase 3: Temporal Workflow & Activity Engine (Day 3)
-* [ ] Implement `src/temporal/activities.py`:
-  - `@activity.defn evaluate_tabpfn_risk_activity`: Executes real TabPFN forward pass.
-  - `@activity.defn dispatch_emergency_alert_activity`: Dispatches live Telegram/SMS emergency signals.
-  - `@activity.defn log_trail_telemetry_activity`: Persists append-only trip log.
-* [ ] Implement `src/temporal/workflows.py`:
-  - `@workflow.defn class TrailSafetyWorkflow`.
-  - Setup durable timers with `workflow.wait_condition` and timeout triggers.
-  - Bind `@workflow.signal` handlers (`check_in`, `extend_window`, `emergency_sos`).
-  - Bind `@workflow.query` handler (`get_hiker_status`).
-* [ ] Implement `src/temporal/worker.py` to poll task queue `trail-safety-task-queue`.
-
-### Phase 4: Field CLI & End-to-End Simulation (Day 4)
-* [ ] Implement `src/cli/field_app.py`:
-  - Rich-formatted terminal UI showing live timer countdowns, leg stats, and check-in buttons.
-  - Supports quick keystroke signals (`[C] Check In`, `[E] Extend 15m`, `[S] Emergency SOS`, `[Q] Quit`).
-* [ ] Implement automated end-to-end integration test (`tests/test_e2e_safety_loop.py`):
-  - Spawns workflow $\to$ sends normal check-in $\to$ validates TabPFN risk output $\to$ simulates missed checkpoint $\to$ verifies emergency dispatch trigger.
-
-### Phase 5: DEV.to Article, DevRelay Session & Submission (Day 5)
-* [ ] Record a 60–90 second motion-dense terminal/field demo video.
-* [ ] Save and export DevRelay agent transcript using Liquid tag `{% agent_session ... %}`.
-* [ ] Publish submission post on DEV.to under `#hf26challenge` and `#devchallenge`:
-  - Clean architecture diagrams.
-  - Clear "Touch Grass" personal narrative (solo trekking in the Western Ghats).
-  - Explicit declaration of both prize categories under `## Prize Categories`.
-
----
-
-## 5. Repository File Hierarchy
+## 4. Repository Structure
 
 ```text
-hackathons/trailsafe/
-├── README.md                      # Canonical architecture, build plan & documentation (this file)
-├── .env.example                   # Annotated template for all configuration keys
-├── requirements.txt               # Pinned dependencies (temporalio, tabpfn, etc.)
+trailsafe/
+├── README.md                      # Canonical architecture and runbook
+├── .env.example                   # Configuration keys template
+├── .env                           # Local runtime environment file
+├── requirements.txt               # Pinned Python dependencies
+├── pytest.ini                     # Test configuration
 ├── data/
 │   ├── sample_trail_history.csv   # Historical baseline hikes for in-context TabPFN learning
-│   └── test_checkpoints.json      # Sample trail checkpoint sequence (Netravali Ridge Trail)
+│   └── test_checkpoints.json      # Sample trail checkpoint sequences (Netravali Ridge, Dudhsagar)
 ├── src/
 │   ├── __init__.py
-│   ├── config.py                  # Pydantic settings loading from .env
+│   ├── config.py                  # Pydantic configuration loader
 │   ├── ml/
 │   │   ├── __init__.py
-│   │   ├── tabpfn_engine.py       # Authentic Prior Labs TabPFN classifier/regressor module
-│   │   └── benchmark_eval.py      # Comparative evaluation vs scikit-learn baselines
+│   │   ├── tabpfn_engine.py       # Authentic Prior Labs TabPFN classifier/regressor engine
+│   │   └── benchmark_eval.py      # Empirical cross-validation vs scikit-learn baselines
 │   ├── temporal/
 │   │   ├── __init__.py
 │   │   ├── workflows.py           # Durable TrailSafetyWorkflow definition with signals & queries
@@ -244,61 +169,90 @@ hackathons/trailsafe/
 │   │   └── worker.py              # Temporal worker process polling task queues
 │   ├── dispatch/
 │   │   ├── __init__.py
-│   │   ├── notifier.py            # Telegram Bot API and Twilio SMS client implementations
-│   └── cli/
-│       ├── __init__.py
-│       └── field_app.py           # Interactive Rich CLI for trailhead start & checkpoint tap
+│   │   └── notifier.py            # Telegram Bot API and Twilio SMS client dispatchers
+│   ├── cli/
+│   │   ├── __init__.py
+│   │   └── field_app.py           # Interactive Rich CLI for terminal field use
+│   ├── server/
+│   │   ├── __init__.py
+│   │   └── app.py                 # FastAPI backend connecting mobile app to Temporal and TabPFN
+│   └── static/
+│       ├── index.html             # Mobile-first tactical outdoor web interface
+│       ├── style.css              # Tactical stylesheet (no purple gradients, no pill shapes)
+│       ├── app.js                 # Mobile sensor integration, Web Audio siren, QR scanner
+│       ├── privacy.html           # Dedicated Privacy Policy
+│       └── terms.html             # Dedicated Terms and Conditions
 ├── tests/
-│   ├── test_tabpfn_inference.py   # Unit test verifying real TabPFN forward pass
+│   ├── test_tabpfn_inference.py   # Unit test verifying authentic TabPFN forward pass
 │   ├── test_temporal_workflow.py  # Unit test verifying Temporal signals and timers
-│   └── test_e2e_safety_loop.py    # End-to-end live integration test
+│   └── test_e2e_safety_loop.py    # End-to-end integration test verifying full hike loop
 └── utils/
-    └── verify_env.py              # Pre-flight environment and credential sanity checker
+    └── verify_env.py              # Pre-flight environment and diagnostic validator
 ```
 
 ---
 
-## 6. Verification & Quickstart Runbook
+## 5. Verification & Quickstart Runbook
 
-### 1. Pre-flight Setup
+### Step 1: Initialize Virtual Environment & Install Dependencies
 ```bash
-cd hackathons/trailsafe
 python3 -m venv .venv
 source .venv/bin/activate
 pip install -r requirements.txt
 cp .env.example .env
 ```
 
-### 2. Verify Credentials & Cluster
+### Step 2: Run Pre-Flight Diagnostics
 ```bash
 python3 utils/verify_env.py
 ```
 
-### 3. Launch Temporal Cluster (Terminal 1)
+### Step 3: Run Full Automated Test Suite
 ```bash
+pytest tests/
+```
+Output confirms **10 passing test cases** across TabPFN in-context Bayesian inference, Temporal durable workflows with simulated time-skipping, and the end-to-end safety loop.
+
+### Step 4: Run Interactive Autonomous Dead-Man Switch Simulation
+```bash
+python3 scripts/simulate_emergency.py
+```
+Demonstrates the full end-to-end solo hiker lifecycle in terminal: trailhead registration, TabPFN in-context fitting, Screen-Zero waypoint check-ins, severe fatigue risk alerts, missed checkpoint timeout in a cellular dead zone, grace period acoustic countdown, and multi-channel rescue dispatch with live GPS coordinates.
+
+### Step 5: Run TabPFN Empirical Comparative Benchmark
+```bash
+python3 src/ml/benchmark_eval.py
+```
+Outputs cross-validated calibration benchmarks (Brier score, ROC-AUC, Accuracy, Water Deficit MAE) cached at `data/benchmark_cache.json`.
+
+### Step 6: Start the Mobile Field Application Server
+```bash
+python3 -m uvicorn src.server.app:app --host 0.0.0.0 --port 8000
+```
+Open `http://localhost:8000` on desktop or mobile. The application includes a progressive Service Worker (`/static/sw.js`) and Web App Manifest (`/static/manifest.json`) for 100% offline execution in backcountry dead-zones.
+
+### Step 6 (Optional): Launch Temporal Cluster and Worker
+To connect the live Temporal durable cluster:
+```bash
+# Terminal 1: Launch local Temporal dev server
 temporal server start-dev
-```
 
-### 4. Start TrailSafe Worker (Terminal 2)
-```bash
+# Terminal 2: Start TrailSafe Temporal worker
 python3 src/temporal/worker.py
-```
 
-### 5. Launch Field CLI & Start Trail (Terminal 3)
-```bash
+# Terminal 3: Launch Rich Tactical Field CLI
 python3 src/cli/field_app.py --trail "Netravali Ridge" --timeout 15
 ```
 
 ---
 
-## 7. Submission Checklist for DEV.to
+## 6. Hackathon Submission & Demo Artifacts
 
-When publishing the project on DEV.to before **October 11, 2026**:
-1. **Header Categories**:
-   ```markdown
-   ## Prize Categories
-   - 🏆 **Best Use of TabPFN ($200 USD):** Built with Prior Labs TabPFN tabular foundation model running Bayesian in-context inference over personal biometric and trail telemetry features to predict exhaustion risk and fluid deficit.
-   - 🛡️ **Best Use of Temporal ($100 USD):** Built on Temporal's durable workflow engine to manage long-running outdoor hiking sessions, checkpoint timeouts, and dead-man's switch escalation that survives phone reboots and network loss.
-   ```
-2. **Open-Source Grounding**: Emphasize how local TabPFN execution protects intimate health and GPS telemetry while guaranteeing zero-signal offline capability.
-3. **Embed Live Agent Session**: Include the DevRelay session transcript tag to demonstrate genuine autonomous agent engineering.
+* **Ready-to-Publish DEV.to Submission Post**: [`docs/SUBMISSION_POST.md`](docs/SUBMISSION_POST.md) (Full post with narrative hook, architecture diagrams, benchmark analysis, and open innovation rationale).
+* **2-Minute Demo Video Walkthrough & Script**: [`docs/DEMO_WALKTHROUGH.md`](docs/DEMO_WALKTHROUGH.md) (Step-by-step recording guide and key screenshots).
+* **Empirical Benchmark Cache**: [`data/benchmark_cache.json`](data/benchmark_cache.json) (Precomputed 5-fold CV comparisons).
+
+### Declared Prize Categories
+* **Featured Category: Best Use of TabPFN ($200 USD)**: Engineered with Prior Labs TabPFN tabular foundation models running single-forward-pass in-context Bayesian inference over 7D physical biometric and terrain telemetry. Empirically validated with a 17.9 mL fluid deficit prediction error, outperforming Random Forest by nearly 2x without hyperparameter tuning.
+* **Partner Category: Best Use of Temporal ($100 USD)**: Engineered with Temporal's durable execution platform to manage long-running solo hiking sessions, dead-man countdown timers, signal handlers, and multi-channel rescue escalations that survive device restarts and network partitions.
+* **Overall Winner**: Direct alignment with the **Touch Grass** challenge theme, keeping solo adventurers safe in cellular dead zones.

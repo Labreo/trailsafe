@@ -1,0 +1,236 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <title>TrailSafe: Offline Solo Hiker Dead-Man Switch & Tabular Risk Engine</title>
+  <meta name="description" content="Durable outdoor dead-man switch and Prior Labs TabPFN in-context risk engine for solo hikers.">
+  <meta name="theme-color" content="#0a0e14">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+  <link rel="manifest" href="/static/manifest.json">
+  <link rel="stylesheet" href="/static/style.css">
+</head>
+<body>
+
+  <!-- Application Header -->
+  <header class="app-header">
+    <div class="brand-container">
+      <svg class="brand-icon" viewBox="0 0 24 24">
+        <path d="M12 2L3 7v6c0 5.55 3.84 10.74 9 12 5.16-1.26 9-6.45 9-12V7l-9-5z"/>
+        <path d="M9 12l2 2 4-4"/>
+      </svg>
+      <span class="brand-title">TrailSafe</span>
+    </div>
+    <div class="cluster-status-badge" id="cluster-status-badge">
+      <span class="status-indicator-dot" id="cluster-status-dot"></span>
+      <span id="cluster-status-text">Connecting...</span>
+    </div>
+  </header>
+
+  <main class="container">
+
+    <!-- Trailhead Setup Card (Visible Before Hike Starts) -->
+    <div class="card" id="setup-card">
+      <div class="card-title">
+        <span>Trailhead Configuration</span>
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <circle cx="12" cy="12" r="3"/>
+          <path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1-2-2 2 2 0 0 1 2-2h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 2-2 2 2 0 0 1 2 2v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-.09a1.65 1.65 0 0 0-1.51 1z"/>
+        </svg>
+      </div>
+
+      <div class="form-group">
+        <label class="form-label" for="trail-select">Target Trail Route</label>
+        <select class="form-select" id="trail-select">
+          <option value="">Loading trail routes...</option>
+        </select>
+      </div>
+
+      <div class="form-group">
+        <label class="form-label" for="hiker-name-input">Solo Hiker Identifier</label>
+        <input class="form-input" id="hiker-name-input" type="text" value="Kanak Waradkar" placeholder="Enter your callsign or name">
+      </div>
+
+      <div class="form-group">
+        <label class="form-label" for="timeout-input">Dead-Man Checkpoint Window (Minutes)</label>
+        <input class="form-input" id="timeout-input" type="number" value="45" min="1" max="180">
+      </div>
+
+      <div class="form-group">
+        <label class="form-label" for="emergency-phone-input">Emergency SMS Contact (Optional Fallback)</label>
+        <input class="form-input" id="emergency-phone-input" type="tel" placeholder="+91 98200 00000">
+      </div>
+
+      <button class="btn btn-primary" id="start-hike-btn" type="button">
+        <svg viewBox="0 0 24 24"><polygon points="5 3 19 12 5 21 5 3"/></svg>
+        Initiate Trailhead Session
+      </button>
+    </div>
+
+    <!-- Active Hike Field Card (Visible Once Session Begins) -->
+    <div class="card" id="active-hike-card" style="display: none;">
+      <div class="card-title">
+        <span id="active-trail-name">Netravali Ridge Trail</span>
+        <span id="checkpoint-index-text">Waypoint 1 of 5</span>
+      </div>
+
+      <!-- Tactical Countdown Timer -->
+      <div class="countdown-container">
+        <div class="countdown-label">Dead-Man Checkpoint Countdown</div>
+        <div class="countdown-digits" id="countdown-digits">45:00</div>
+        <div class="countdown-status-text" id="countdown-status-text">Normal Safety Window Active</div>
+      </div>
+
+      <!-- Real-Time Biometric & Environmental Telemetry -->
+      <div class="metrics-grid">
+        <div class="metric-box">
+          <div class="metric-label">GPS Position</div>
+          <div class="metric-value" id="metric-gps" style="font-size: 0.95rem;">15.0892, 74.2154</div>
+        </div>
+        <div class="metric-box">
+          <div class="metric-label">Altitude</div>
+          <div class="metric-value" id="metric-elevation">90m</div>
+        </div>
+        <div class="metric-box">
+          <div class="metric-label">Moving Pace</div>
+          <div class="metric-value" id="metric-pace">11.5 <span class="metric-unit">min/km</span></div>
+        </div>
+        <div class="metric-box">
+          <div class="metric-label">Cadence (Steps)</div>
+          <div class="metric-value" id="metric-cadence">118 <span class="metric-unit">SPM</span></div>
+        </div>
+        <div class="metric-box">
+          <div class="metric-label">Water Reserve</div>
+          <div class="metric-value" id="metric-water">2000 <span class="metric-unit">mL</span></div>
+        </div>
+        <div class="metric-box">
+          <div class="metric-label">Device Battery</div>
+          <div class="metric-value" id="metric-battery">98%</div>
+        </div>
+      </div>
+
+      <!-- Prior Labs TabPFN In-Context Bayesian Risk Assessment -->
+      <div class="risk-banner" id="risk-banner">
+        <div class="risk-header">
+          <span style="font-size: 0.75rem; font-family: var(--font-mono); text-transform: uppercase; color: var(--text-muted);">
+            Prior Labs TabPFN Bayesian Risk:
+          </span>
+          <span class="risk-score safe" id="tabpfn-prob">8.2%</span>
+        </div>
+        <div style="font-size: 0.78rem; font-family: var(--font-mono); margin-bottom: 4px;">
+          Projected Fluid Deficit: <strong id="tabpfn-deficit">0 mL</strong>
+        </div>
+        <div class="risk-recommendation" id="tabpfn-recommendation">
+          Pace nominal. Proceed to target waypoint.
+        </div>
+      </div>
+
+      <!-- Tactical Controls -->
+      <div class="button-stack">
+        <button class="btn btn-primary" id="check-in-btn" type="button">
+          <svg viewBox="0 0 24 24"><path d="M20 6L9 17l-5-5"/></svg>
+          Transmit Waypoint Check-In
+        </button>
+
+        <div class="button-row">
+          <button class="btn btn-secondary" id="scan-qr-btn" type="button">
+            <svg viewBox="0 0 24 24"><path d="M3 7V5a2 2 0 0 1 2-2h2M17 3h2a2 2 0 0 1 2 2v2M21 17v2a2 2 0 0 1-2 2h-2M7 21H5a2 2 0 0 1-2-2v-2"/></svg>
+            Scan QR Waypoint
+          </button>
+          <button class="btn btn-warning" id="extend-btn" type="button">
+            <svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
+            Extend (+15m)
+          </button>
+        </div>
+
+        <button class="btn btn-danger" id="sos-btn" type="button">
+          <svg viewBox="0 0 24 24"><path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"/><line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg>
+          Emergency SOS Panic Trigger
+        </button>
+
+        <button class="btn btn-secondary" id="finish-btn" type="button" style="margin-top: 4px;">
+          Disarm & Finish Trail
+        </button>
+      </div>
+
+      <!-- Waypoint Verification Sequence -->
+      <div style="margin-top: 16px;">
+        <div class="card-title">Waypoint Sequence</div>
+        <div class="checkpoint-list" id="checkpoint-list"></div>
+      </div>
+
+      <!-- Audit Ledger -->
+      <div style="margin-top: 16px;">
+        <div class="card-title">Session Audit Ledger</div>
+        <div class="audit-list" id="audit-log"></div>
+      </div>
+    </div>
+
+    <!-- Comparative Validation Card -->
+    <div class="card">
+      <div class="card-title">
+        <span>Prior Labs TabPFN Validation</span>
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <line x1="18" y1="20" x2="18" y2="10"/>
+          <line x1="12" y1="20" x2="12" y2="4"/>
+          <line x1="6" y1="20" x2="6" y2="14"/>
+        </svg>
+      </div>
+      <p style="font-size: 0.82rem; color: var(--text-secondary); margin-bottom: 10px;">
+        Evaluates Bayesian in-context calibration against Random Forest and Logistic Regression on small-sample trail observations (Leave-One-Out CV).
+      </p>
+      <button class="btn btn-secondary" id="run-benchmark-btn" type="button">
+        Run TabPFN Empirical Benchmark
+      </button>
+
+      <div id="benchmark-results-card" style="display: none; margin-top: 12px;">
+        <table class="benchmark-table">
+          <thead>
+            <tr>
+              <th>Model</th>
+              <th>Brier (↓)</th>
+              <th>AUC (↑)</th>
+              <th>Accuracy</th>
+              <th>Water MAE</th>
+            </tr>
+          </thead>
+          <tbody id="benchmark-table-body"></tbody>
+        </table>
+      </div>
+    </div>
+
+  </main>
+
+  <!-- Camera QR Scanner Modal -->
+  <div class="scanner-modal" id="scanner-modal">
+    <div class="scanner-video-container">
+      <video id="scanner-video" playsinline autoplay muted></video>
+      <div class="scanner-reticle"></div>
+    </div>
+    <div style="margin-top: 16px; width: 100%; max-width: 400px; display: flex; flex-direction: column; gap: 8px;">
+      <button class="btn btn-primary" id="confirm-waypoint-token-btn" type="button">
+        Confirm Waypoint Token
+      </button>
+      <button class="btn btn-secondary" id="close-scanner-btn" type="button">
+        Cancel Scan
+      </button>
+    </div>
+  </div>
+
+  <!-- Application Footer with Legal Pages -->
+  <footer class="app-footer">
+    <nav class="footer-nav">
+      <a href="/privacy">Privacy Policy</a>
+      <a href="/terms">Terms and Conditions</a>
+      <a href="https://github.com/Labreo" target="_blank" rel="noopener">GitHub (@Labreo)</a>
+    </nav>
+    <div class="footer-disclaimer">
+      TrailSafe is an open-source autonomous safety system for solo outdoor navigation.
+      Prior Labs TabPFN Bayesian Foundation Model and Temporal Durable Execution.
+    </div>
+  </footer>
+
+  <script src="/static/app.js"></script>
+</body>
+</html>

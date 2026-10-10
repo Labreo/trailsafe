@@ -1,0 +1,121 @@
+[
+  {
+    "trail_id": "netravali-ridge",
+    "trail_name": "Netravali Ridge Trail",
+    "location": "Netravali Wildlife Sanctuary, South Goa",
+    "total_distance_km": 14.8,
+    "elevation_gain_m": 820,
+    "difficulty": "Moderate to Strenuous",
+    "checkpoints": [
+      {
+        "id": "netravali-cp-1",
+        "name": "Netravali Forest Gate",
+        "elevation_m": 90,
+        "distance_km": 0.0,
+        "expected_pace_min_per_km": 11.0,
+        "terrain_roughness_idx": 1.1,
+        "latitude": 15.0892,
+        "longitude": 74.2154,
+        "token": "TS-NETRAVALI-CP1-9821"
+      },
+      {
+        "id": "netravali-cp-2",
+        "name": "Savari Waterfalls Crossing",
+        "elevation_m": 240,
+        "distance_km": 3.4,
+        "expected_pace_min_per_km": 13.5,
+        "terrain_roughness_idx": 2.2,
+        "latitude": 15.0745,
+        "longitude": 74.2382,
+        "token": "TS-NETRAVALI-CP2-4412"
+      },
+      {
+        "id": "netravali-cp-3",
+        "name": "Mainapi Escarpment",
+        "elevation_m": 510,
+        "distance_km": 7.2,
+        "expected_pace_min_per_km": 16.0,
+        "terrain_roughness_idx": 2.8,
+        "latitude": 15.0612,
+        "longitude": 74.2568,
+        "token": "TS-NETRAVALI-CP3-7729"
+      },
+      {
+        "id": "netravali-cp-4",
+        "name": "Tiger Ridge Overlook",
+        "elevation_m": 790,
+        "distance_km": 11.0,
+        "expected_pace_min_per_km": 19.5,
+        "terrain_roughness_idx": 3.4,
+        "latitude": 15.0489,
+        "longitude": 74.2791,
+        "token": "TS-NETRAVALI-CP4-3180"
+      },
+      {
+        "id": "netravali-cp-5",
+        "name": "Eastern Plateau Ranger Post",
+        "elevation_m": 820,
+        "distance_km": 14.8,
+        "expected_pace_min_per_km": 14.0,
+        "terrain_roughness_idx": 1.8,
+        "latitude": 15.0398,
+        "longitude": 74.2985,
+        "token": "TS-NETRAVALI-CP5-6604"
+      }
+    ]
+  },
+  {
+    "trail_id": "dudhsagar-canyon",
+    "trail_name": "Dudhsagar Canyon Escarpment",
+    "location": "Bhagwan Mahaveer Sanctuary, Goa",
+    "total_distance_km": 11.2,
+    "elevation_gain_m": 580,
+    "difficulty": "Moderate",
+    "checkpoints": [
+      {
+        "id": "dudhsagar-cp-1",
+        "name": "Collem Forest Outpost",
+        "elevation_m": 65,
+        "distance_km": 0.0,
+        "expected_pace_min_per_km": 10.5,
+        "terrain_roughness_idx": 1.0,
+        "latitude": 15.3341,
+        "longitude": 74.2415,
+        "token": "TS-DUDH-CP1-1002"
+      },
+      {
+        "id": "dudhsagar-cp-2",
+        "name": "Railway Bridge Underpass",
+        "elevation_m": 180,
+        "distance_km": 4.1,
+        "expected_pace_min_per_km": 12.8,
+        "terrain_roughness_idx": 1.9,
+        "latitude": 15.3218,
+        "longitude": 74.2812,
+        "token": "TS-DUDH-CP2-2931"
+      },
+      {
+        "id": "dudhsagar-cp-3",
+        "name": "Canyon Base Pool",
+        "elevation_m": 390,
+        "distance_km": 8.0,
+        "expected_pace_min_per_km": 17.2,
+        "terrain_roughness_idx": 3.1,
+        "latitude": 15.3129,
+        "longitude": 74.3142,
+        "token": "TS-DUDH-CP3-5582"
+      },
+      {
+        "id": "dudhsagar-cp-4",
+        "name": "Escarpment Viewpoint",
+        "elevation_m": 580,
+        "distance_km": 11.2,
+        "expected_pace_min_per_km": 15.0,
+        "terrain_roughness_idx": 2.5,
+        "latitude": 15.3055,
+        "longitude": 74.3298,
+        "token": "TS-DUDH-CP4-8840"
+      }
+    ]
+  }
+]
