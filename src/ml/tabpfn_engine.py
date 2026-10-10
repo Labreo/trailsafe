@@ -102,6 +102,10 @@ class TabPFNRiskEngine:
     _instance: Optional["TabPFNRiskEngine"] = None
 
     def __init__(self, data_path: Optional[Union[str, Path]] = None) -> None:
+        import os
+        if settings.effective_tabpfn_key and "TABPFN_TOKEN" not in os.environ:
+            os.environ["TABPFN_TOKEN"] = settings.effective_tabpfn_key
+
         self.data_path = Path(data_path) if data_path else settings.DATA_DIR / "sample_trail_history.csv"
         self.classifier = TabPFNClassifier(
             n_estimators=settings.TABPFN_N_ESTIMATORS,

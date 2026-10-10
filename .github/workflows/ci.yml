@@ -12,6 +12,11 @@ jobs:
     runs-on: ubuntu-latest
     timeout-minutes: 15
 
+    env:
+      TABPFN_TOKEN: ${{ secrets.TABPFN_TOKEN || 'tabpfn_sk_JVlHwIcHrBu6toYCf80QuHz93TEIKFkY7-IGN6cUKr0' }}
+      TABPFN_DEVICE: "cpu"
+      TABPFN_N_ESTIMATORS: "2"
+
     steps:
       - name: Check out repository
         uses: actions/checkout@v4
