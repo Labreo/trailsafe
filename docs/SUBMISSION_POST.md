@@ -1,7 +1,7 @@
 ---
 title: "When Cell Service Drops to Zero: I Built an Offline Dead-Man's Switch with TabPFN & Temporal for Solo Trekkers in the Western Ghats 🏔️"
 published: true
-tags: devchallenge, hf26challenge, tabpfn, temporal
+tags: devchallenge, hf26challenge, tabpfn, temporal, touchgrass
 cover_image: https://raw.githubusercontent.com/Labreo/trailsafe/main/docs/assets/trailsafe_hero.png
 canonical_url: https://github.com/Labreo/trailsafe
 ---
@@ -87,7 +87,33 @@ sequenceDiagram
 
 ## Demo: Field Execution in Action
 
+<!-- ====================================================================== -->
+<!-- 🎥 PLACEHOLDER 1: DEMO VIDEO EMBED                                     -->
+<!-- WHAT TO INSERT: Upload your 90-120s walkthrough to YouTube or Loom.    -->
+<!-- Option A (YouTube embed):  {% youtube YOUR_VIDEO_ID %}                 -->
+<!-- Option B (Loom embed):     {% loom YOUR_LOOM_ID %}                     -->
+<!-- Option C (Direct link):    [Watch TrailSafe Demo](YOUR_VIDEO_URL)      -->
+<!-- ====================================================================== -->
+
+{% youtube ___INSERT_YOUTUBE_VIDEO_ID_HERE___ %}
+
+*(If not using YouTube, replace the tag above with: `[Watch TrailSafe 2-Minute Demo](___INSERT_VIDEO_URL_HERE___)`)*
+
+---
+
 ### 1. The Mobile Field Web Application
+
+<!-- ====================================================================== -->
+<!-- 📱 PLACEHOLDER 2: MOBILE PWA FIELD INTERFACE                           -->
+<!-- WHAT TO INSERT: Screenshot of the mobile web app running at            -->
+<!-- http://localhost:8000 in mobile viewport (countdown, sensors, risk).  -->
+<!-- Quick tip: You can drag & drop your screenshot into the dev.to editor   -->
+<!-- to get a dev.to image URL, OR use the repository asset URL below:      -->
+<!-- https://raw.githubusercontent.com/Labreo/trailsafe/main/docs/assets/trailsafe_hero.png -->
+<!-- ====================================================================== -->
+
+![TrailSafe Mobile Field App](___INSERT_MOBILE_APP_SCREENSHOT_URL_HERE___)
+
 The PWA runs locally at `http://localhost:8000` or can be installed to home screens on iPhone or Android:
 * Displays real-time device battery percentage, GPS altitude, cadence, and countdown timer.
 * When a checkpoint signal is sent, TabPFN evaluates telemetry in real time:
@@ -97,14 +123,39 @@ The PWA runs locally at `http://localhost:8000` or can be installed to home scre
   Recommendation: Pace nominal. Proceed to target waypoint.
   ```
 
-### 2. The Tactical Terminal CLI
-For basecamp monitors or terminal enthusiasts:
+### 2. The Tactical Terminal CLI & Simulator
+
+<!-- ====================================================================== -->
+<!-- 💻 PLACEHOLDER 3: TERMINAL CLI / SIMULATOR WALKTHROUGH                 -->
+<!-- WHAT TO INSERT: Screenshot of your terminal running:                  -->
+<!-- `python3 scripts/simulate_emergency.py`                                -->
+<!-- showing the color risk bars, countdown panel, and checkpoint steps.    -->
+<!-- Drag & drop your screenshot into dev.to editor to paste URL below.     -->
+<!-- ====================================================================== -->
+
+![Tactical Terminal Simulation Monitor](___INSERT_TERMINAL_SCREENSHOT_URL_HERE___)
+
+For basecamp monitors, headless field devices, or automated simulation:
 ```bash
+# 1. Run live autonomous dead-man switch simulation:
+python3 scripts/simulate_emergency.py
+
+# 2. Or launch interactive field CLI:
 python3 src/cli/field_app.py --trail "Netravali Ridge" --timeout 45 --hiker "Solo Explorer"
 ```
 It renders a live countdown panel, displays active waypoint coordinates, and provides real-time signal prompts.
 
 ### 3. Triggering SOS & Automatic Emergency Dispatch
+
+<!-- ====================================================================== -->
+<!-- 🚨 PLACEHOLDER 4: REAL TELEGRAM RESCUE ALERT                           -->
+<!-- WHAT TO INSERT: Phone screenshot of the actual Telegram rescue alert  -->
+<!-- received on your phone from @ktcl_commuteshield_bot with GPS pin.     -->
+<!-- Drag & drop your phone screenshot into dev.to editor to paste below.  -->
+<!-- ====================================================================== -->
+
+![Emergency Telegram Dispatch with Live GPS Pin](___INSERT_TELEGRAM_ALERT_SCREENSHOT_URL_HERE___)
+
 When an emergency occurs or a window expires, TrailSafe generates an immediate rescue payload sent to emergency contacts via Telegram and SMS:
 
 ```text
@@ -178,6 +229,15 @@ class TabPFNRiskEngine:
 
 #### The Empirical Benchmark (TabPFN vs Baselines)
 I wrote an empirical cross-validation evaluation suite (`src/ml/benchmark_eval.py`) comparing TabPFN against `RandomForestClassifier` (50 trees) and `LogisticRegression` / `LinearRegression` across 5-fold stratified cross validation on 40 historical trail observations.
+
+<!-- ====================================================================== -->
+<!-- 📊 PLACEHOLDER 5: TABPFN BENCHMARK VISUALIZATION                       -->
+<!-- WHAT TO INSERT: Visual comparison chart of TabPFN vs Baselines.        -->
+<!-- You can drag & drop your chart screenshot or use the repository asset: -->
+<!-- https://raw.githubusercontent.com/Labreo/trailsafe/main/docs/assets/tabpfn_benchmark.png -->
+<!-- ====================================================================== -->
+
+![Prior Labs TabPFN Comparative Benchmark](___INSERT_BENCHMARK_CHART_URL_HERE___)
 
 Here are the real benchmark results:
 
@@ -355,5 +415,19 @@ python3 -m uvicorn src.server.app:app --host 0.0.0.0 --port 8000
 
 ---
 
-*GitHub Repository: [github.com/Labreo/trailsafe](https://github.com/Labreo/trailsafe)*  
+## Links & Submission Assets
+
+<!-- ====================================================================== -->
+<!-- 🔗 SUBMISSION LINKS CHECKLIST                                          -->
+<!-- 1. Open Source Repository: https://github.com/Labreo/trailsafe         -->
+<!-- 2. Demo Video: Paste your YouTube / Loom URL in the blank below.       -->
+<!-- 3. Live Web App: (Optional) If hosted online, paste URL in the blank.   -->
+<!-- ====================================================================== -->
+
+* 📦 **Open-Source Repository**: [github.com/Labreo/trailsafe](https://github.com/Labreo/trailsafe)
+* 🎥 **Walkthrough Video Demo**: [Watch the Video Walkthrough](___INSERT_DEMO_VIDEO_LINK_HERE___)
+* 🌐 **Live Web Application**: [Launch TrailSafe Mobile App](___INSERT_OPTIONAL_LIVE_DEMO_URL_HERE___)
+
+---
+
 *Built with ❤️ for solo outdoor explorers everywhere. Go outside, stay safe, and touch grass.*
