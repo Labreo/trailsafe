@@ -325,13 +325,12 @@ Building resilient software requires overcoming unexpected edge cases:
 
 Developing TrailSafe involved fast iteration across Bayesian tabular statistics, durable state machines, and responsive terminal interfaces.
 
-I used Gemini CLI to explore mathematical formulation, write time-skipping test suites, and validate TabPFN benchmarks:
+I used Gemini CLI with DevRelay to explore mathematical formulation, write time-skipping test suites, and validate TabPFN benchmarks on small-sample trail priors:
 
-* **Interactive Session Embed**:
 {% agent_session 766 %}
 
 * **Direct Session Link**: [View TrailSafe Session 766 on dev.to](https://dev.to/agent_sessions/trailsafe-prior-labs-tabpfn-in-context-bayesian-inference-temporal-durable-dead-mans-switch-lidukd)
-* **Local Payload File**: Available in repo as `agent_session.json` and `docs/assets/agent_session_transcript.json` (uploadable via `devrelay sessions submit --title "TrailSafe Session" --file agent_session.json`).
+* **Local Payload File**: Available in repo as [`agent_session.json`](https://github.com/Labreo/trailsafe/blob/main/agent_session.json) and [`docs/assets/agent_session_transcript.json`](https://github.com/Labreo/trailsafe/blob/main/docs/assets/agent_session_transcript.json).
 
 ### Curated Session Log
 
