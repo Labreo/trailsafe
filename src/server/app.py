@@ -4,6 +4,7 @@ Bridges mobile phone sensors, Temporal durable workflows, and Prior Labs TabPFN
 Bayesian tabular inference.
 """
 
+import asyncio
 from datetime import datetime, timezone
 import json
 import logging
@@ -43,6 +44,26 @@ app.add_middleware(
 STATIC_DIR = settings.BASE_DIR / "src" / "static"
 STATIC_DIR.mkdir(parents=True, exist_ok=True)
 app.mount("/static", StaticFiles(directory=STATIC_DIR), name="static")
+
+
+@app.on_event("startup")
+async def startup_warmup():
+    logger.info("Pre-warming Prior Labs TabPFN Bayesian Foundation Model in RAM...")
+    try:
+        engine = TabPFNRiskEngine.get_instance()
+        dummy = HikerTelemetry(
+            elevation_delta_m=0.0,
+            pace_min_per_km=11.0,
+            hours_elapsed=0.1,
+            ambient_temp_c=25.0,
+            water_remaining_ml=2000.0,
+            cadence_spm=120.0,
+            terrain_roughness_idx=1.1,
+        )
+        engine.evaluate(dummy)
+        logger.info("Prior Labs TabPFN is hot in RAM and ready for instantaneous inference.")
+    except Exception as e:
+        logger.warning(f"TabPFN startup notice: {e}")
 
 
 # In-memory session registry for mobile state synchronization
@@ -178,13 +199,19 @@ async def start_hike(req: StartHikeRequest):
     }
 
     # In-context evaluation with Prior Labs TabPFN
+    t_tabpfn = time.time()
     risk_engine = TabPFNRiskEngine.get_instance()
-    initial_risk = risk_engine.evaluate(HikerTelemetry(**initial_telem)).model_dump()
+    initial_risk = await asyncio.to_thread(
+        lambda: risk_engine.evaluate(HikerTelemetry(**initial_telem)).model_dump()
+    )
+    logger.info(f"TabPFN initial evaluation completed in {time.time() - t_tabpfn:.2f}s")
 
     # Attempt to start Temporal durable workflow
+    t_temporal = time.time()
     temporal_workflow_id = None
     try:
-        client = await create_temporal_client()
+        client = await create_temporal_client(timeout_seconds=1.0)
+        logger.info(f"Temporal client connected in {time.time() - t_temporal:.2f}s")
         params = {
             "hiker_id": req.hiker_id,
             "trail_id": matched_trail["trail_id"],

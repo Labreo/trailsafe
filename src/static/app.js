@@ -373,37 +373,52 @@ function renderActiveSession() {
   const s = state.activeSession;
   if (!s) return;
 
-  el.setupCard.style.display = 'none';
-  el.activeHikeCard.style.display = 'block';
+  const setupCard = el.setupCard || document.getElementById('setup-card');
+  if (setupCard) setupCard.style.display = 'none';
 
-  el.activeTrailName.textContent = s.trail.trail_name;
-  const cpIdx = s.current_checkpoint_idx;
-  const totalCps = s.trail.checkpoints.length;
-  const currentCp = s.trail.checkpoints[Math.min(cpIdx, totalCps - 1)];
+  const activeCard = el.activeHikeCard || document.getElementById('active-hike-card');
+  if (activeCard) activeCard.style.display = 'block';
 
-  el.activeCheckpointName.textContent = currentCp.name;
-  el.checkpointIndexText.textContent = `Waypoint ${Math.min(cpIdx + 1, totalCps)} of ${totalCps}`;
+  const trailNameEl = el.activeTrailName || document.getElementById('active-trail-name');
+  if (trailNameEl && s.trail) {
+    trailNameEl.textContent = s.trail.trail_name;
+  }
+  const cpIdx = s.current_checkpoint_idx || 0;
+  const totalCps = s.trail && s.trail.checkpoints ? s.trail.checkpoints.length : 1;
+  const currentCp = s.trail && s.trail.checkpoints ? s.trail.checkpoints[Math.min(cpIdx, totalCps - 1)] : null;
+
+  const cpNameEl = el.activeCheckpointName || document.getElementById('active-checkpoint-name');
+  if (cpNameEl && currentCp) {
+    cpNameEl.textContent = currentCp.name;
+  }
+  const cpIdxEl = el.checkpointIndexText || document.getElementById('checkpoint-index-text');
+  if (cpIdxEl) {
+    cpIdxEl.textContent = `Waypoint ${Math.min(cpIdx + 1, totalCps)} of ${totalCps}`;
+  }
 
   // Update Waypoint list
-  el.checkpointList.innerHTML = '';
-  s.trail.checkpoints.forEach((cp, idx) => {
-    const item = document.createElement('div');
-    item.className = 'checkpoint-item';
-    if (idx < cpIdx) {
-      item.classList.add('completed');
-    } else if (idx === cpIdx) {
-      item.classList.add('active');
-    }
+  const cpListEl = el.checkpointList || document.getElementById('checkpoint-list');
+  if (cpListEl && s.trail && s.trail.checkpoints) {
+    cpListEl.innerHTML = '';
+    s.trail.checkpoints.forEach((cp, idx) => {
+      const item = document.createElement('div');
+      item.className = 'checkpoint-item';
+      if (idx < cpIdx) {
+        item.classList.add('completed');
+      } else if (idx === cpIdx) {
+        item.classList.add('active');
+      }
 
-    item.innerHTML = `
-      <div>
-        <div class="checkpoint-name">${cp.name}</div>
-        <div class="checkpoint-meta">Elev: ${cp.elevation_m}m | Distance: ${cp.distance_km} km</div>
-      </div>
-      <div class="checkpoint-meta">${idx < cpIdx ? 'VERIFIED' : (idx === cpIdx ? 'TARGET' : 'PENDING')}</div>
-    `;
-    el.checkpointList.appendChild(item);
-  });
+      item.innerHTML = `
+        <div>
+          <div class="checkpoint-name">${cp.name}</div>
+          <div class="checkpoint-meta">Elev: ${cp.elevation_m}m | Distance: ${cp.distance_km} km</div>
+        </div>
+        <div class="checkpoint-meta">${idx < cpIdx ? 'VERIFIED' : (idx === cpIdx ? 'TARGET' : 'PENDING')}</div>
+      `;
+      cpListEl.appendChild(item);
+    });
+  }
 
   // TabPFN Risk Banner
   updateRiskBanner(s.latest_risk);
@@ -414,18 +429,26 @@ function renderActiveSession() {
 function updateRiskBanner(risk) {
   if (!risk) return;
   const prob = (risk.hazard_probability * 100).toFixed(1);
-  el.tabpfnProb.textContent = `${prob}%`;
-  
-  if (risk.hazard_probability >= 0.70) {
-    el.tabpfnProb.className = 'risk-score danger';
-  } else if (risk.hazard_probability >= 0.40) {
-    el.tabpfnProb.className = 'risk-score warning';
-  } else {
-    el.tabpfnProb.className = 'risk-score safe';
+  const probEl = el.tabpfnProb || document.getElementById('tabpfn-prob');
+  if (probEl) {
+    probEl.textContent = `${prob}%`;
+    if (risk.hazard_probability >= 0.70) {
+      probEl.className = 'risk-score danger';
+    } else if (risk.hazard_probability >= 0.40) {
+      probEl.className = 'risk-score warning';
+    } else {
+      probEl.className = 'risk-score safe';
+    }
   }
 
-  el.tabpfnDeficit.textContent = `${risk.projected_water_deficit_ml || 0} mL`;
-  el.tabpfnRecommendation.textContent = risk.recommendation || 'Pace nominal. Continue leg.';
+  const defEl = el.tabpfnDeficit || document.getElementById('tabpfn-deficit');
+  if (defEl) {
+    defEl.textContent = `${risk.projected_water_deficit_ml || 0} mL`;
+  }
+  const recEl = el.tabpfnRecommendation || document.getElementById('tabpfn-recommendation');
+  if (recEl) {
+    recEl.textContent = risk.recommendation || 'Pace nominal. Continue leg.';
+  }
 }
 
 // Update Audit Log
@@ -453,18 +476,23 @@ function startCountdownLoop() {
 
     const mins = Math.floor(remaining / 60);
     const secs = remaining % 60;
-    el.countdownDigits.textContent = `${String(mins).padStart(2, '0')}:${String(secs).padStart(2, '0')}`;
+    const digitsEl = el.countdownDigits || document.getElementById('countdown-digits');
+    const statusEl = el.countdownStatusText || document.getElementById('countdown-status-text');
+
+    if (digitsEl) {
+      digitsEl.textContent = `${String(mins).padStart(2, '0')}:${String(secs).padStart(2, '0')}`;
+    }
 
     if (remaining > 300) {
-      el.countdownDigits.className = 'countdown-digits';
-      el.countdownStatusText.textContent = 'Normal Safety Window Active';
+      if (digitsEl) digitsEl.className = 'countdown-digits';
+      if (statusEl) statusEl.textContent = 'Normal Safety Window Active';
       triggerAudioSiren(false);
     } else if (remaining > 0) {
-      el.countdownDigits.className = 'countdown-digits warning';
-      el.countdownStatusText.textContent = 'Warning: Checkpoint Window Closing Soon';
+      if (digitsEl) digitsEl.className = 'countdown-digits warning';
+      if (statusEl) statusEl.textContent = 'Warning: Checkpoint Window Closing Soon';
     } else {
-      el.countdownDigits.className = 'countdown-digits danger';
-      el.countdownStatusText.textContent = 'DEAD-MAN SWITCH TRIGGERED: SIREN ACTIVE';
+      if (digitsEl) digitsEl.className = 'countdown-digits danger';
+      if (statusEl) statusEl.textContent = 'DEAD-MAN SWITCH TRIGGERED: SIREN ACTIVE';
       triggerAudioSiren(true);
       if (navigator.vibrate) navigator.vibrate([300, 100, 300, 100, 500]);
     }

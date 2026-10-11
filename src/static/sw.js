@@ -1,7 +1,7 @@
 // TrailSafe Offline Service Worker
 // Enables 100% offline functionality in backcountry cellular dead-zones
 
-const CACHE_NAME = 'trailsafe-v1.1';
+const CACHE_NAME = 'trailsafe-v2.0';
 const PRECACHE_ASSETS = [
   '/',
   '/static/style.css',
@@ -55,23 +55,25 @@ self.addEventListener('fetch', (event) => {
     return;
   }
 
-  // Handle static app assets with cache-first, network fallback
+  // Handle static app assets with network-first, offline cache fallback
   event.respondWith(
-    caches.match(event.request).then((cachedResponse) => {
-      if (cachedResponse) {
-        return cachedResponse;
-      }
-      return fetch(event.request).then((networkResponse) => {
+    fetch(event.request)
+      .then((networkResponse) => {
         if (networkResponse && networkResponse.status === 200) {
           const resClone = networkResponse.clone();
           caches.open(CACHE_NAME).then((cache) => cache.put(event.request, resClone));
         }
         return networkResponse;
-      }).catch(() => {
-        if (event.request.mode === 'navigate') {
-          return caches.match('/');
-        }
-      });
-    })
+      })
+      .catch(() => {
+        return caches.match(event.request).then((cachedResponse) => {
+          if (cachedResponse) {
+            return cachedResponse;
+          }
+          if (event.request.mode === 'navigate') {
+            return caches.match('/');
+          }
+        });
+      })
   );
 });
