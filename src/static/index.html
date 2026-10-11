@@ -72,7 +72,10 @@
     <div class="card" id="active-hike-card" style="display: none;">
       <div class="card-title">
         <span id="active-trail-name">Netravali Ridge Trail</span>
-        <span id="checkpoint-index-text">Waypoint 1 of 5</span>
+        <div style="display: flex; align-items: center; gap: 8px;">
+          <span id="checkpoint-index-text">Waypoint 1 of 5</span>
+          <button id="reset-session-btn" type="button" style="background: transparent; border: 1px solid rgba(255,255,255,0.18); color: var(--text-dim); border-radius: 6px; padding: 2px 8px; font-size: 0.72rem; cursor: pointer; transition: 0.2s;" title="Return to Setup Card">← Setup</button>
+        </div>
       </div>
       <div style="font-size: 0.82rem; font-family: var(--font-mono); color: var(--accent-orange); margin-bottom: 12px; display: flex; align-items: center; gap: 6px;">
         <span style="display: inline-block; width: 6px; height: 6px; border-radius: 50%; background: var(--accent-orange);"></span>

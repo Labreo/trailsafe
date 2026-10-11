@@ -321,6 +321,20 @@ function setupEventListeners() {
   el.sosBtn.addEventListener('click', handleEmergencySos);
   el.finishBtn.addEventListener('click', handleFinishHike);
   el.runBenchmarkBtn.addEventListener('click', handleRunBenchmark);
+
+  const resetBtn = document.getElementById('reset-session-btn');
+  if (resetBtn) {
+    resetBtn.addEventListener('click', () => {
+      localStorage.removeItem('trailsafe_active_session');
+      state.activeSession = null;
+      if (state.timerInterval) clearInterval(state.timerInterval);
+      triggerAudioSiren(false);
+      const activeCard = el.activeHikeCard || document.getElementById('active-hike-card');
+      const setupCard = el.setupCard || document.getElementById('setup-card');
+      if (activeCard) activeCard.style.display = 'none';
+      if (setupCard) setupCard.style.display = 'block';
+    });
+  }
 }
 
 // Start Hike Session
