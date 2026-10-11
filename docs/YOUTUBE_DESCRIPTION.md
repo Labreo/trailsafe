@@ -20,6 +20,7 @@ Built for the DEV Hacktoberfest 2026 Open-Source AI Challenge (Week 1: Touch Gra
 ---
 
 ### 🔗 Project Links & Resources
+* 🎬 Direct Video Link: https://youtu.be/U_V5aFTPyPg
 * 📦 GitHub Repository: https://github.com/Labreo/trailsafe
 * 📝 Dev.to Submission Post: https://dev.to/challenges/hacktoberfest-week1-2026-10-05
 * 🧠 Prior Labs TabPFN: https://priorlabs.ai

@@ -1,9 +1,9 @@
 # TrailSafe: Cinematic B-Roll & Visual Cutaway Storyboard 🎬
 
-> **Audio Status**: Your ElevenLabs voiceover transcript remains **100% UNCHANGED**.  
-> **Total Runtime**: ~105 Seconds.  
-> **Format**: 16:9 / 1080p60.  
-> **Editing Software**: Any editor (CapCut, DaVinci Resolve, Premiere, iMovie, or Loom stitcher).
+> **Live YouTube Video**: [https://youtu.be/U_V5aFTPyPg](https://youtu.be/U_V5aFTPyPg) 🎬  
+> **Total Runtime**: ~105 Seconds (1:45).  
+> **Format**: 16:9 / 1080p60 Full HD.  
+> **Voiceover**: ElevenLabs audio transcript.
 
 ---
 

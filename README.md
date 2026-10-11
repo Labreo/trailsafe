@@ -12,7 +12,7 @@
     <a href="LICENSE"><img src="https://img.shields.io/badge/License-MIT-yellow.svg" alt="License: MIT" /></a>
     <a href="https://www.python.org/"><img src="https://img.shields.io/badge/Python-3.12-blue.svg" alt="Python 3.12" /></a>
     <a href="https://github.com/priorlabs/tabpfn"><img src="https://img.shields.io/badge/Prior_Labs-TabPFN_Foundation_Model-00C7B7.svg" alt="TabPFN" /></a>
-    <a href="https://temporal.io"><img src="https://img.shields.io/badge/Temporal-Durable_Execution-242A35.svg" alt="Temporal" /></a>
+    <a href="https://youtu.be/U_V5aFTPyPg"><img src="https://img.shields.io/badge/YouTube-1080p_Video_Demo-red?logo=youtube&logoColor=white" alt="YouTube Demo" /></a>
     <a href="tests/"><img src="https://img.shields.io/badge/Tests-10%2F10%20Passed-brightgreen.svg" alt="100% Tests Passing" /></a>
   </p>
 
@@ -22,7 +22,11 @@
 
 </div>
 
-![TrailSafe Tactical Outdoor Interface](docs/assets/trailsafe_hero.png)
+[![Watch TrailSafe 1080p Video Demo](docs/assets/youtube_thumbnail.png)](https://youtu.be/U_V5aFTPyPg)
+
+<p align="center">
+  🎬 <b><a href="https://youtu.be/U_V5aFTPyPg">Watch the 2-Minute Full HD Video Walkthrough on YouTube</a></b> 🎬
+</p>
 
 > **Challenge**: [Hacktoberfest Open-Source AI Challenge: Week 1 - Touch Grass](https://dev.to/challenges/hacktoberfest-week1-2026-10-05)  
 > **Challenge Tag**: [`dev.to/t/hf26challenge`](https://dev.to/t/hf26challenge)  

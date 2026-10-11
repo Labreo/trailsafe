@@ -69,11 +69,13 @@ When an explorer misses a checkpoint and grace period, TrailSafe automatically b
 
 ## Demo
 
-{% embed https://youtu.be/Lh1koubGmZk %}
+{% embed https://youtu.be/U_V5aFTPyPg %}
 
 *(Full HD 1080p demo walkthrough showcasing offline Bayesian inference, time-skipping test suites, and search-and-rescue dispatch).*
 
-![TrailSafe Video Demo Thumbnail](https://raw.githubusercontent.com/Labreo/trailsafe/main/docs/assets/youtube_thumbnail.png)
+[![TrailSafe Video Demo Thumbnail](https://raw.githubusercontent.com/Labreo/trailsafe/main/docs/assets/youtube_thumbnail.png)](https://youtu.be/U_V5aFTPyPg)
+
+🎬 **Watch Full HD Walkthrough on YouTube**: [youtu.be/U_V5aFTPyPg](https://youtu.be/U_V5aFTPyPg)
 
 ### Key Demonstration Chapters
 
