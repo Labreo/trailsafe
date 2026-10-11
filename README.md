@@ -1,11 +1,26 @@
-# TrailSafe: Offline Solo Hiker Dead-Man Switch & In-Context Tabular Risk Engine
+<div align="center">
 
-[![TrailSafe CI](https://github.com/Labreo/trailsafe/actions/workflows/ci.yml/badge.svg)](https://github.com/Labreo/trailsafe/actions)
-[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](LICENSE)
-[![Python 3.12](https://img.shields.io/badge/Python-3.12-blue.svg)](https://www.python.org/)
-[![Prior Labs TabPFN](https://img.shields.io/badge/Prior_Labs-TabPFN_Foundation_Model-00C7B7.svg)](https://github.com/priorlabs/tabpfn)
-[![Temporal Durable Execution](https://img.shields.io/badge/Temporal-Durable_Execution-242A35.svg)](https://temporal.io)
-[![100% Tests Passed](https://img.shields.io/badge/Tests-10%2F10%20Passed-brightgreen.svg)](tests/)
+  <img src="docs/assets/trailsafe_logo.png" width="160" alt="TrailSafe Outdoor Safety Logo" />
+
+  # 🏔️ TrailSafe
+
+  ### Offline Solo Hiker Dead-Man's Switch & In-Context Tabular Risk Engine
+  **Autonomous Backcountry Life Safety with Prior Labs TabPFN & Temporal Durable Execution**
+
+  <p align="center">
+    <a href="https://github.com/Labreo/trailsafe/actions/workflows/ci.yml"><img src="https://github.com/Labreo/trailsafe/actions/workflows/ci.yml/badge.svg" alt="TrailSafe CI" /></a>
+    <a href="LICENSE"><img src="https://img.shields.io/badge/License-MIT-yellow.svg" alt="License: MIT" /></a>
+    <a href="https://www.python.org/"><img src="https://img.shields.io/badge/Python-3.12-blue.svg" alt="Python 3.12" /></a>
+    <a href="https://github.com/priorlabs/tabpfn"><img src="https://img.shields.io/badge/Prior_Labs-TabPFN_Foundation_Model-00C7B7.svg" alt="TabPFN" /></a>
+    <a href="https://temporal.io"><img src="https://img.shields.io/badge/Temporal-Durable_Execution-242A35.svg" alt="Temporal" /></a>
+    <a href="tests/"><img src="https://img.shields.io/badge/Tests-10%2F10%20Passed-brightgreen.svg" alt="100% Tests Passing" /></a>
+  </p>
+
+  <p align="center">
+    <i>"Go outside, stay safe, and touch grass."</i>
+  </p>
+
+</div>
 
 ![TrailSafe Tactical Outdoor Interface](docs/assets/trailsafe_hero.png)
 
