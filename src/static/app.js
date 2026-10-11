@@ -428,7 +428,7 @@ function renderActiveSession() {
           <div class="checkpoint-name">${cp.name}</div>
           <div class="checkpoint-meta">Elev: ${cp.elevation_m}m | Distance: ${cp.distance_km} km</div>
         </div>
-        <div class="checkpoint-meta">${idx < cpIdx ? 'VERIFIED' : (idx === cpIdx ? 'TARGET' : 'PENDING')}</div>
+        <div class="checkpoint-meta" style="${idx < cpIdx ? 'color: var(--accent-safe); font-weight: 700;' : (idx === cpIdx ? 'color: var(--accent-orange); font-weight: 700;' : '')}">${idx < cpIdx ? '✓ VERIFIED' : (idx === cpIdx ? 'TARGET' : 'PENDING')}</div>
       `;
       cpListEl.appendChild(item);
     });
@@ -533,8 +533,11 @@ async function handleCheckIn() {
   };
 
   try {
-    el.checkInBtn.disabled = true;
-    el.checkInBtn.textContent = 'Transmitting Signal...';
+    const btn = el.checkInBtn || document.getElementById('check-in-btn');
+    if (btn) {
+      btn.disabled = true;
+      btn.textContent = 'Transmitting Signal...';
+    }
 
     const res = await fetch(`/api/hikes/${s.session_id}/check-in`, {
       method: 'POST',
@@ -549,11 +552,22 @@ async function handleCheckIn() {
 
     triggerAudioSiren(false);
     renderActiveSession();
+
+    if (btn) {
+      btn.style.backgroundColor = '#10b981';
+      btn.style.borderColor = '#059669';
+      btn.innerHTML = `<svg viewBox="0 0 24 24" style="width:18px;height:18px;fill:none;stroke:currentColor;stroke-width:3;"><polyline points="20 6 9 17 4 12"/></svg> Checkpoint Verified ✓`;
+      setTimeout(() => {
+        btn.style.backgroundColor = '';
+        btn.style.borderColor = '';
+        btn.innerHTML = `<svg viewBox="0 0 24 24"><path d="M20 6L9 17l-5-5"/></svg> Transmit Waypoint Check-In`;
+      }, 2500);
+    }
   } catch (err) {
     alert('Check-in failed: ' + err.message);
   } finally {
-    el.checkInBtn.disabled = false;
-    el.checkInBtn.textContent = 'Transmit Waypoint Check-In';
+    const btn = el.checkInBtn || document.getElementById('check-in-btn');
+    if (btn) btn.disabled = false;
   }
 }
 

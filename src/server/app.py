@@ -266,12 +266,14 @@ async def record_check_in(session_id: str, req: CheckInRequest):
         raise HTTPException(status_code=404, detail="Hike session not found")
 
     telemetry_obj = HikerTelemetry(**req.telemetry)
-    risk_result = TabPFNRiskEngine.get_instance().evaluate(telemetry_obj).model_dump()
+    risk_result = await asyncio.to_thread(
+        lambda: TabPFNRiskEngine.get_instance().evaluate(telemetry_obj).model_dump()
+    )
 
     # Forward signal to Temporal if connected
     if session.get("temporal_workflow_id"):
         try:
-            client = await create_temporal_client()
+            client = await create_temporal_client(timeout_seconds=1.0)
             handle = client.get_workflow_handle(session["temporal_workflow_id"])
             await handle.signal(
                 TrailSafetyWorkflow.check_in,
