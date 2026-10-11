@@ -327,8 +327,11 @@ Developing TrailSafe involved fast iteration across Bayesian tabular statistics,
 
 I used Gemini CLI to explore mathematical formulation, write time-skipping test suites, and validate TabPFN benchmarks:
 
-* **Interactive Session on DEV**: [{% agent_session 394 %}](https://dev.to/agent_sessions/gemini-cli-session-mm7fif)
-* **Direct Session Link**: [View Gemini CLI Session 394 on dev.to](https://dev.to/agent_sessions/gemini-cli-session-mm7fif)
+* **Interactive Session Embed**:
+{% agent_session 766 %}
+
+* **Direct Session Link**: [View TrailSafe Session 766 on dev.to](https://dev.to/agent_sessions/trailsafe-prior-labs-tabpfn-in-context-bayesian-inference-temporal-durable-dead-mans-switch-lidukd)
+* **Local Payload File**: Available in repo as `agent_session.json` and `docs/assets/agent_session_transcript.json` (uploadable via `devrelay sessions submit --title "TrailSafe Session" --file agent_session.json`).
 
 ### Curated Session Log
 
