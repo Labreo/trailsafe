@@ -545,7 +545,21 @@ async function handleCheckIn() {
       body: JSON.stringify(payload),
     });
 
-    if (!res.ok) throw new Error('Check-in failed');
+    if (!res.ok) {
+      if (res.status === 404) {
+        localStorage.removeItem('trailsafe_active_session');
+        state.activeSession = null;
+        if (state.timerInterval) clearInterval(state.timerInterval);
+        const activeCard = el.activeHikeCard || document.getElementById('active-hike-card');
+        const setupCard = el.setupCard || document.getElementById('setup-card');
+        if (activeCard) activeCard.style.display = 'none';
+        if (setupCard) setupCard.style.display = 'block';
+        alert('Session expired on server. Automatically returned to Trailhead Setup card.');
+        return;
+      }
+      const errJson = await res.json().catch(() => ({}));
+      throw new Error(errJson.detail || 'Check-in failed');
+    }
     const updated = await res.json();
     state.activeSession = updated;
     localStorage.setItem('trailsafe_active_session', JSON.stringify(updated));
@@ -706,6 +720,12 @@ async function handleRunBenchmark() {
 
 // Restore Local Session if reloaded
 function restoreLocalSession() {
+  if (window.location.search.includes('reset')) {
+    localStorage.removeItem('trailsafe_active_session');
+    state.activeSession = null;
+    history.replaceState(null, '', window.location.pathname);
+    return;
+  }
   const cached = localStorage.getItem('trailsafe_active_session');
   if (cached) {
     try {

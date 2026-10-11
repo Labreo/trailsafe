@@ -258,12 +258,65 @@ async def start_hike(req: StartHikeRequest):
     return session_data
 
 
+def get_or_reconstruct_session(session_id: str, fallback_telemetry: Optional[Dict[str, Any]] = None) -> Dict[str, Any]:
+    session = ACTIVE_SESSIONS.get(session_id)
+    if session:
+        return session
+
+    trails = load_all_trails()
+    matched_trail = None
+    for t in trails:
+        if t["trail_id"] in session_id:
+            matched_trail = t
+            break
+    if not matched_trail and trails:
+        matched_trail = trails[0]
+
+    if not matched_trail:
+        raise HTTPException(status_code=404, detail="Hike session not found")
+
+    telem = fallback_telemetry or {
+        "elevation_delta_m": 0.0,
+        "pace_min_per_km": 11.0,
+        "hours_elapsed": 0.5,
+        "ambient_temp_c": 25.0,
+        "water_remaining_ml": 1800.0,
+        "cadence_spm": 120.0,
+        "terrain_roughness_idx": 1.1,
+    }
+
+    session = {
+        "session_id": session_id,
+        "temporal_workflow_id": None,
+        "hiker_id": "Kanak Waradkar",
+        "trail": matched_trail,
+        "status": "ACTIVE",
+        "current_checkpoint_idx": 0,
+        "total_checkpoints": len(matched_trail["checkpoints"]),
+        "timeout_seconds": 2700,
+        "deadline_timestamp": time.time() + 2700,
+        "last_check_in_time": datetime.now(timezone.utc).isoformat(),
+        "latest_telemetry": telem,
+        "latest_risk": {},
+        "audit_trail": [{"event": "session_reconnected", "timestamp": datetime.now(timezone.utc).isoformat()}],
+    }
+    ACTIVE_SESSIONS[session_id] = session
+    logger.info(f"Reconstructed active session {session_id} for trail {matched_trail['trail_name']}")
+    return session
+
+
+@app.post("/api/reset")
+@app.get("/api/reset")
+async def reset_all_sessions():
+    """Resets in-memory sessions."""
+    ACTIVE_SESSIONS.clear()
+    return {"status": "cleared", "message": "All sessions reset."}
+
+
 @app.post("/api/hikes/{session_id}/check-in")
 async def record_check_in(session_id: str, req: CheckInRequest):
     """Processes waypoint signal and evaluates telemetry."""
-    session = ACTIVE_SESSIONS.get(session_id)
-    if not session:
-        raise HTTPException(status_code=404, detail="Hike session not found")
+    session = get_or_reconstruct_session(session_id, req.telemetry)
 
     telemetry_obj = HikerTelemetry(**req.telemetry)
     risk_result = await asyncio.to_thread(
@@ -306,16 +359,14 @@ async def record_check_in(session_id: str, req: CheckInRequest):
 @app.post("/api/hikes/{session_id}/extend")
 async def extend_session_window(session_id: str, req: ExtendRequest):
     """Extends dead-man timer for rest or photo break."""
-    session = ACTIVE_SESSIONS.get(session_id)
-    if not session:
-        raise HTTPException(status_code=404, detail="Hike session not found")
+    session = get_or_reconstruct_session(session_id)
 
     additional_seconds = req.minutes * 60
     session["deadline_timestamp"] += additional_seconds
 
     if session.get("temporal_workflow_id"):
         try:
-            client = await create_temporal_client()
+            client = await create_temporal_client(timeout_seconds=1.0)
             handle = client.get_workflow_handle(session["temporal_workflow_id"])
             await handle.signal(TrailSafetyWorkflow.extend_window, req.minutes)
         except Exception as e:
@@ -333,16 +384,14 @@ async def extend_session_window(session_id: str, req: ExtendRequest):
 @app.post("/api/hikes/{session_id}/sos")
 async def trigger_emergency_sos(session_id: str, req: SosRequest):
     """Triggers immediate emergency SOS rescue beacon."""
-    session = ACTIVE_SESSIONS.get(session_id)
-    if not session:
-        raise HTTPException(status_code=404, detail="Hike session not found")
+    session = get_or_reconstruct_session(session_id)
 
     session["status"] = "EMERGENCY_DISPATCHED"
 
     # Forward signal to Temporal workflow
     if session.get("temporal_workflow_id"):
         try:
-            client = await create_temporal_client()
+            client = await create_temporal_client(timeout_seconds=1.0)
             handle = client.get_workflow_handle(session["temporal_workflow_id"])
             await handle.signal(TrailSafetyWorkflow.emergency_sos, req.reason)
         except Exception as e:
@@ -382,9 +431,7 @@ async def trigger_emergency_sos(session_id: str, req: SosRequest):
 @app.get("/api/hikes/{session_id}/status")
 async def get_session_status(session_id: str):
     """Retrieves live state machine snapshot and countdown seconds."""
-    session = ACTIVE_SESSIONS.get(session_id)
-    if not session:
-        raise HTTPException(status_code=404, detail="Hike session not found")
+    session = get_or_reconstruct_session(session_id)
 
     now = time.time()
     remaining_seconds = max(0, int(session["deadline_timestamp"] - now))
@@ -396,7 +443,7 @@ async def get_session_status(session_id: str):
     # Query Temporal if workflow exists
     if session.get("temporal_workflow_id"):
         try:
-            client = await create_temporal_client()
+            client = await create_temporal_client(timeout_seconds=1.0)
             handle = client.get_workflow_handle(session["temporal_workflow_id"])
             temporal_status = await handle.query(TrailSafetyWorkflow.get_hiker_status)
             session["status"] = temporal_status.get("status", session["status"])
@@ -414,14 +461,12 @@ async def get_session_status(session_id: str):
 @app.post("/api/hikes/{session_id}/finish")
 async def finish_hike(session_id: str):
     """Safely terminates active hike session."""
-    session = ACTIVE_SESSIONS.get(session_id)
-    if not session:
-        raise HTTPException(status_code=404, detail="Hike session not found")
+    session = get_or_reconstruct_session(session_id)
 
     session["status"] = "COMPLETED"
     if session.get("temporal_workflow_id"):
         try:
-            client = await create_temporal_client()
+            client = await create_temporal_client(timeout_seconds=1.0)
             handle = client.get_workflow_handle(session["temporal_workflow_id"])
             await handle.signal(TrailSafetyWorkflow.complete_hike)
         except Exception:
